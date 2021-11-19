@@ -57,6 +57,7 @@ nav, a {
   color: rgb(195, 6, 195);
   font-size: 1.4em;
   font-family: "Harry Potter";
+  position: inline-fixed;
 }
 
 /*For the font for the tabs */
@@ -73,4 +74,43 @@ nav, a {
       format("truetype"),
     url("//db.onlinewebfonts.com/t/0421d4186d6efbfc5331fe180895e780.svg#Harry Potter")
       format("svg");
+}
+
+/*Adding css that will make a wand appear instead of the mouse cursor */
+* {
+  cursor: url(https://cur.cursors-4u.net/user/use-1/use160.cur), auto !important;
+}
+
+ .logo {
+  height: 70px;
+  width: 200px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-top: -6px;
+}
+
+/*For the form on the homepage */
+div {
+  color: white;
+}
+legend {
+  font-size: 2em;
+  color: rgb(195, 6, 195);
+}
+label {
+  font-size: 2em;
+}
+form {
+  size: auto;
+  box-sizing: border-box;
+  border-radius: 5px;
+  padding: 20px;
+  background-color: black;
+  max-width: 900px;
+  height: auto;
+  width: 100%;
+  margin: auto;
+  font-family: "Harry Potter";
+  color: #222222;
+  text-align: center;
 }
