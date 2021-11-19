@@ -1,21 +1,21 @@
 //For the sorting hat quiz on the homepage
 //all houses start with 0 points and all images hidden including the gif
 //variables for the Hogwarts Houses
-let gryffindor = 0,
-  ravenclaw = 0,
-  hufflepuff = 0,
-  slytherin = 0;
-document.getElementById("gryffindor").hidden = true;
-document.getElementById("ravenclaw").hidden = true;
-document.getElementById("hufflepuff").hidden = true;
-document.getElementById("slytherin").hidden = true;
-document.getElementById("noanswer").hidden = true;
+let gryffindor, ravenclaw, hufflepuff, slytherin = 0;
+
+  //document.getElementById("gryffindor").style.visibility = 'hidden';
+  //document.getElementById("ravenclaw").style.visibility = 'hidden';
+  //document.getElementById("hufflepuff").style.visibility = 'hidden';
+ // document.getElementById("slytherin").style.visibility = 'hidden';
+ // document.getElementById("noanswer").style.visibility = 'hidden';
+
 // function to calculate random int in case of a tiebreak
 function getRandomInt(max) {
   return Math.floor(Math.random() * max);
 }
 console.group("========= Form Submission =========");
 let form = document.querySelector("form");
+if (form) {
 form.addEventListener("submit", (event) => {
   //Submissions for question1
   //note any answer with blank will not award any point to any house
@@ -413,29 +413,29 @@ form.addEventListener("submit", (event) => {
     gryffindor > hufflepuff &&
     gryffindor > slytherin
   ) {
-    document.getElementById("gryffindor").hidden = false;
-    document.getElementById("noanswer").hidden = true;
+    document.getElementById("gryffindor").removeAttribute('hidden');
+    document.getElementById("noanswer").setAttribute('hidden', 'hidden');
   } else if (
     ravenclaw > gryffindor &&
     ravenclaw > hufflepuff &&
     ravenclaw > slytherin
   ) {
-    document.getElementById("ravenclaw").hidden = false;
-    document.getElementById("noanswer").hidden = true;
+    document.getElementById("ravenclaw").removeAttribute('hidden');
+    document.getElementById("noanswer").setAttribute('hidden', 'hidden');
   } else if (
     hufflepuff > ravenclaw &&
     hufflepuff > gryffindor &&
     hufflepuff > slytherin
   ) {
-    document.getElementById("hufflepuff").hidden = false;
-    document.getElementById("noanswer").hidden = true;
+    document.getElementById("hufflepuff").removeAttribute('hidden');
+    document.getElementById("noanswer").setAttribute('hidden', 'hidden');
   } else if (
     slytherin > gryffindor &&
     slytherin > ravenclaw &&
     slytherin > hufflepuff
   ) {
-    document.getElementById("slytherin").hidden = false;
-    document.getElementById("noanswer").hidden = true;
+    document.getElementById("slytherin").removeAttribute('hidden');
+    document.getElementById("noanswer").setAttribute('hidden', 'hidden');
     //in the event that nothing is entered then seamus gif will appear!
   } else if (
     gryffindor === 0 &&
@@ -443,7 +443,7 @@ form.addEventListener("submit", (event) => {
     hufflepuff === 0 &&
     slytherin === 0
   ) {
-    document.getElementById("noanswer").hidden = false;
+    document.getElementById("noanswer").removeAttribute('hidden');
   } else {
     //in the event of a tie then random number function above will be used
     let tiebreak = getRandomInt(4); //generate number between 0 and 3
@@ -452,32 +452,32 @@ form.addEventListener("submit", (event) => {
     hufflepuff = 2;
     slytherin = 3;
     if (tiebreak === 0) {
-      document.getElementById("gryffindor").hidden = false;
-      document.getElementById("noanswer").hidden = true;
-      document.getElementById("ravenclaw").hidden = true;
-      document.getElementById("hufflepuff").hidden = true;
-      document.getElementById("slytherin").hidden = true;
+      document.getElementById("gryffindor").removeAttribute('hidden');
+    //  document.getElementById("noanswer").setAttribute('hidden', 'hidden');
+    //  document.getElementById("ravenclaw").setAttribute('hidden', 'hidden');
+    //  document.getElementById("hufflepuff").setAttribute('hidden', 'hidden');
+    //  document.getElementById("slytherin").setAttribute('hidden', 'hidden');
       document.body.style.backgroundColor = "#e2062c";
     } else if (tiebreak === 1) {
-      document.getElementById("ravenclaw").hidden = false;
-      document.getElementById("noanswer").hidden = true;
-      document.getElementById("gryffindor").hidden = true;
-      document.getElementById("hufflepuff").hidden = true;
-      document.getElementById("slytherin").hidden = true;
+      document.getElementById("ravenclaw").removeAttribute('hidden');
+    //  document.getElementById("noanswer").setAttribute('hidden', 'hidden');
+    //  document.getElementById("gryffindor").setAttribute('hidden', 'hidden');
+    //  document.getElementById("hufflepuff").setAttribute('hidden', 'hidden');
+    //  document.getElementById("slytherin").setAttribute('hidden', 'hidden');
       document.body.style.backgroundColor = "blue";
     } else if (tiebreak === 2) {
-      document.getElementById("hufflepuff").hidden = false;
-      document.getElementById("noanswer").hidden = true;
-      document.getElementById("gryffindor").hidden = true;
-      document.getElementById("ravenclaw").hidden = true;
-      document.getElementById("slytherin").hidden = true;
+      document.getElementById("hufflepuff").removeAttribute('hidden');
+     // document.getElementById("noanswer").setAttribute('hidden', 'hidden');
+     // document.getElementById("gryffindor").setAttribute('hidden', 'hidden');
+     // document.getElementById("ravenclaw").setAttribute('hidden', 'hidden');
+     // document.getElementById("slytherin").setAttribute('hidden', 'hidden');
       document.body.style.backgroundColor = "yellow";
     } else if (tiebreak === 3) {
-      document.getElementById("slytherin").hidden = false;
-      document.getElementById("noanswer").hidden = true;
-      document.getElementById("gryffindor").hidden = true;
-      document.getElementById("ravenclaw").hidden = true;
-      document.getElementById("hufflepuff").hidden = true;
+      document.getElementById("slytherin").removeAttribute('hidden');
+     // document.getElementById("noanswer").setAttribute('hidden', 'hidden');
+    //  document.getElementById("gryffindor").setAttribute('hidden', 'hidden');
+    //  document.getElementById("ravenclaw").setAttribute('hidden', 'hidden');
+    //  document.getElementById("hufflepuff").setAttribute('hidden', 'hidden');
       document.body.style.backgroundColor = "green";
     }
   }
@@ -487,19 +487,20 @@ form.addEventListener("submit", (event) => {
   console.log(slytherin);
 
   event.preventDefault();
-});
+});}
 
 //adding event listener for when user hits the reset button
+if (form) {
 form.addEventListener("reset", (event) => {
   //reset the values for the houses and reset the images
-  (gryffindor = 0); 
-  (ravenclaw = 0);
-   (hufflepuff = 0);
-   (slytherin = 0);
-  document.getElementById("gryffindor").hidden = true;
-  document.getElementById("ravenclaw").hidden = true;
-  document.getElementById("hufflepuff").hidden = true;
-  document.getElementById("slytherin").hidden = true;
-  document.getElementById("noanswer").hidden = true;
+  gryffindor = 0;
+  ravenclaw = 0;
+  hufflepuff = 0;
+  slytherin = 0;
+  document.getElementById("gryffindor").setAttribute('hidden', 'hidden');
+  document.getElementById("ravenclaw").setAttribute('hidden', 'hidden');
+  document.getElementById("hufflepuff").setAttribute('hidden', 'hidden');
+  document.getElementById("slytherin").setAttribute('hidden', 'hidden');
+  document.getElementById("noanswer").setAttribute('hidden', 'hidden');
   document.body.style.backgroundColor = "white";
-});
+});}
