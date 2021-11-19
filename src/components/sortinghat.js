@@ -3,11 +3,21 @@
 //variables for the Hogwarts Houses
 let gryffindor, ravenclaw, hufflepuff, slytherin = 0;
 
-  //document.getElementById("gryffindor").style.visibility = 'hidden';
-  //document.getElementById("ravenclaw").style.visibility = 'hidden';
-  //document.getElementById("hufflepuff").style.visibility = 'hidden';
- // document.getElementById("slytherin").style.visibility = 'hidden';
- // document.getElementById("noanswer").style.visibility = 'hidden';
+if (document.getElementById("gryffindor")) {
+  document.getElementById("gryffindor").setAttribute("hidden", "hidden");
+}
+if (document.getElementById("ravenclaw")) {
+  document.getElementById("ravenclaw").setAttribute('hidden', 'hidden');
+}
+if (document.getElementById("hufflepuff")) {
+  document.getElementById("hufflepuff").setAttribute('hidden', 'hidden');
+}
+if (document.getElementById("slytherin")) {
+  document.getElementById("slytherin").setAttribute('hidden', 'hidden');
+}
+if (document.getElementById("noanswer")) {
+  document.getElementById("noanswer").setAttribute('hidden', 'hidden');
+}
 
 // function to calculate random int in case of a tiebreak
 function getRandomInt(max) {
@@ -453,31 +463,31 @@ form.addEventListener("submit", (event) => {
     slytherin = 3;
     if (tiebreak === 0) {
       document.getElementById("gryffindor").removeAttribute('hidden');
-    //  document.getElementById("noanswer").setAttribute('hidden', 'hidden');
-    //  document.getElementById("ravenclaw").setAttribute('hidden', 'hidden');
-    //  document.getElementById("hufflepuff").setAttribute('hidden', 'hidden');
-    //  document.getElementById("slytherin").setAttribute('hidden', 'hidden');
+      document.getElementById("noanswer").setAttribute('hidden', 'hidden');
+      document.getElementById("ravenclaw").setAttribute('hidden', 'hidden');
+      document.getElementById("hufflepuff").setAttribute('hidden', 'hidden');
+      document.getElementById("slytherin").setAttribute('hidden', 'hidden');
       document.body.style.backgroundColor = "#e2062c";
     } else if (tiebreak === 1) {
       document.getElementById("ravenclaw").removeAttribute('hidden');
-    //  document.getElementById("noanswer").setAttribute('hidden', 'hidden');
-    //  document.getElementById("gryffindor").setAttribute('hidden', 'hidden');
-    //  document.getElementById("hufflepuff").setAttribute('hidden', 'hidden');
-    //  document.getElementById("slytherin").setAttribute('hidden', 'hidden');
+      document.getElementById("noanswer").setAttribute('hidden', 'hidden');
+      document.getElementById("gryffindor").setAttribute('hidden', 'hidden');
+      document.getElementById("hufflepuff").setAttribute('hidden', 'hidden');
+      document.getElementById("slytherin").setAttribute('hidden', 'hidden');
       document.body.style.backgroundColor = "blue";
     } else if (tiebreak === 2) {
       document.getElementById("hufflepuff").removeAttribute('hidden');
-     // document.getElementById("noanswer").setAttribute('hidden', 'hidden');
-     // document.getElementById("gryffindor").setAttribute('hidden', 'hidden');
-     // document.getElementById("ravenclaw").setAttribute('hidden', 'hidden');
-     // document.getElementById("slytherin").setAttribute('hidden', 'hidden');
+      document.getElementById("noanswer").setAttribute('hidden', 'hidden');
+      document.getElementById("gryffindor").setAttribute('hidden', 'hidden');
+      document.getElementById("ravenclaw").setAttribute('hidden', 'hidden');
+      document.getElementById("slytherin").setAttribute('hidden', 'hidden');
       document.body.style.backgroundColor = "yellow";
     } else if (tiebreak === 3) {
       document.getElementById("slytherin").removeAttribute('hidden');
-     // document.getElementById("noanswer").setAttribute('hidden', 'hidden');
-    //  document.getElementById("gryffindor").setAttribute('hidden', 'hidden');
-    //  document.getElementById("ravenclaw").setAttribute('hidden', 'hidden');
-    //  document.getElementById("hufflepuff").setAttribute('hidden', 'hidden');
+      document.getElementById("noanswer").setAttribute('hidden', 'hidden');
+      document.getElementById("gryffindor").setAttribute('hidden', 'hidden');
+      document.getElementById("ravenclaw").setAttribute('hidden', 'hidden');
+      document.getElementById("hufflepuff").setAttribute('hidden', 'hidden');
       document.body.style.backgroundColor = "green";
     }
   }
