@@ -34,9 +34,10 @@
   background-color: var(--cyan);
 }
 
+/* To rescale images*/
 img {
-  height: 200px;
-  width: 200px;
+  height: 300px;
+  width: 100%;
 }
 
 button {
@@ -53,5 +54,87 @@ canvas {
 nav, a {
   font-weight: bolder;
   font-size: large;
-  
+  background-color: black;
+  color: rgb(195, 6, 195);
+  font-size: 1.4em;
+  font-family: "Harry Potter";
+  position: inline-fixed;
 }
+
+/*For the font for the tabs */
+@font-face {
+  font-family: "Harry Potter";
+  src: url("//db.onlinewebfonts.com/t/0421d4186d6efbfc5331fe180895e780.eot");
+  src: url("//db.onlinewebfonts.com/t/0421d4186d6efbfc5331fe180895e780.eot?#iefix")
+      format("embedded-opentype"),
+    url("//db.onlinewebfonts.com/t/0421d4186d6efbfc5331fe180895e780.woff2")
+      format("woff2"),
+    url("//db.onlinewebfonts.com/t/0421d4186d6efbfc5331fe180895e780.woff")
+      format("woff"),
+    url("//db.onlinewebfonts.com/t/0421d4186d6efbfc5331fe180895e780.ttf")
+      format("truetype"),
+    url("//db.onlinewebfonts.com/t/0421d4186d6efbfc5331fe180895e780.svg#Harry Potter")
+      format("svg");
+}
+
+/*Adding css that will make a wand appear instead of the mouse cursor */
+* {
+  cursor: url(https://cur.cursors-4u.net/user/use-1/use160.cur), auto !important;
+}
+
+ .logo {
+  height: 70px;
+  width: 200px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-top: -6px;
+}
+
+/*For the form on the homepage */
+div {
+  color: white;
+}
+legend {
+  font-size: 2em;
+  color: rgb(195, 6, 195);
+}
+label {
+  font-size: 2em;
+}
+form {
+  size: auto;
+  box-sizing: border-box;
+  border-radius: 5px;
+  padding: 20px;
+  background-color: black;
+  max-width: 900px;
+  height: auto;
+  width: 100%;
+  margin: auto;
+  font-family: "Harry Potter";
+  color: #222222;
+  text-align: center;
+}
+
+.frontpage {
+  font-family: "Harry Potter";
+  text-align: center;
+  margin-top: 80px;
+  padding: 20px;
+  font-size: 4em;
+  color: rgb(209, 23, 23);
+  background-image: url("../src/images/hogwarts.jpg");
+  background-size: 250px;
+}
+h2 {
+  font-family: "Harry Potter";
+  text-align: center;
+  margin-top: 40px;
+  padding: 20px;
+  height: 160px;
+  font-size: 4em;
+  color: rgb(248, 2, 2);
+  background-image: url("../src/images/HogwartsHouses.jpg");
+}
+
+
