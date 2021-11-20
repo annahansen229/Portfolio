@@ -37,7 +37,7 @@ class Search extends React.Component {
                 characters: data,
                 charactersLoaded: true
             })
-            // console.log('got characters in Search', this.state.characters)
+            console.log('got characters in Search', this.state.characters)
         })
 
         fetch(url_books)
@@ -47,8 +47,10 @@ class Search extends React.Component {
                 books: data,
                 booksLoaded: true
             })
-            // console.log('got books in Search', this.state.books)
+            console.log('got books in Search', this.state.books)
         })
+
+
         
         console.log('Search componentDidMount')
     }

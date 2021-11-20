@@ -1,5 +1,7 @@
 import React from "react"
 
+import OptionInput from "./OptionInput"
+
 export default class SearchForm extends React.Component {
     constructor(props) {
         super(props)
@@ -53,53 +55,41 @@ export default class SearchForm extends React.Component {
             myOptions.book.add(thisBook.title)
         }
 
-        console.group("debugging")
-        console.log('myOptions: ', myOptions)
-        console.log('before setState: ', this.state)
+        return myOptions
+    }
 
+    CreateOptions(options, attribute) {
+        // return the option elements for the selected attribute
+        
+        let element = options[{attribute}].map((value) => {
+            return (
+                <option value={value}>{value}</option>
+            )
+        })
+
+        return (
+            <div>
+                <label htmlFor={attribute}>{attribute}:</label>
+                <select 
+                    name={attribute}
+                    id={attribute}
+                >
+                    <option value='placeholder'>Placeholder</option>
+                </select>
+            </div>
+        )
+    }
+
+    async componentDidMount(){
+        const myOptions = await this.setOptions()
         this.setState ({
             options: myOptions,
             isLoaded: true,
         })
-
-        console.log('after setState: ', this.state)
-        console.groupEnd()
-
-        
-    }
-
-    // CreateOptions(attribute) {
-    //     // return the option elements for the selected attribute
-    //     const { options } = this.state
-        
-    //     let element = options.attribute.map((value) => {
-    //         return (
-    //             <option value={value}>{value}</option>
-    //         )
-    //     })
-
-    //     return (
-    //         <div>
-    //             <label htmlFor={attribute}>{attribute}:</label>
-    //             <select 
-    //                 name={attribute}
-    //                 id={attribute}
-    //             >
-    //                 {element}
-    //             </select>
-    //         </div>
-    //     )
-    // }
-
-    componentDidMount(){
-        
-        this.setOptions()
-        // console.log('options in componentDidMount', this.state.options)
-        console.log('SearchForm componentDidMount')
     }
 
     render( ) {
-        const { isLoaded }=this.state
+        const { isLoaded, options }=this.state
         
         return(
             <React.Fragment>
@@ -113,9 +103,15 @@ export default class SearchForm extends React.Component {
                             name='name'
                             id='name'
                         />
-                        {/* <CreateOptions attribute='species'/> */}
+                        <OptionInput 
+                            options={options}
+                            attribute='species'
+                        />
 
-                        {/* <this.CreateOptions attribute='species'/> */}
+                        {/* <this.CreateOptions 
+                            options={options}
+                            attribute='species'
+                        /> */}
 
                         {/* <this.CreateOptions attribute='ancestry' /> */}
                         
