@@ -260,7 +260,7 @@ export default class SearchForm extends React.Component {
                             <input
                                 type='radio'
                                 name='gender'
-                                value='femal'
+                                value='female'
                             />
                             <label htmlFor='female'>Female</label>
                         </fieldset>
