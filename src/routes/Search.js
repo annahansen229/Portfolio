@@ -23,8 +23,9 @@ class Search extends React.Component {
     }    
 
     componentDidMount() {
-        // const url = 'https://the-harry-potter-database.herokuapp.com/api/1/characters/all'
-        const url_characters = 'https://the-harry-potter-database.herokuapp.com/api/1/characters/756' // Albus Dumbledore
+        const url_characters = 'https://the-harry-potter-database.herokuapp.com/api/1/characters/all'
+        
+        // const url_characters = 'https://the-harry-potter-database.herokuapp.com/api/1/characters/756' // Albus Dumbledore for 
         
 
         const url_books = 'https://the-harry-potter-database.herokuapp.com/api/1/books/all'

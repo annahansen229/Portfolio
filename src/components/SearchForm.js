@@ -55,29 +55,14 @@ export default class SearchForm extends React.Component {
             myOptions.book.add(thisBook.title)
         }
 
+        // convert the sets to arrays
+        myOptions.species = Array.from(myOptions.species)
+        myOptions.house = Array.from(myOptions.house)
+        myOptions.ancestry = Array.from(myOptions.ancestry)
+        myOptions.book = Array.from(myOptions.book)
+
+
         return myOptions
-    }
-
-    CreateOptions(options, attribute) {
-        // return the option elements for the selected attribute
-        
-        let element = options[{attribute}].map((value) => {
-            return (
-                <option value={value}>{value}</option>
-            )
-        })
-
-        return (
-            <div>
-                <label htmlFor={attribute}>{attribute}:</label>
-                <select 
-                    name={attribute}
-                    id={attribute}
-                >
-                    <option value='placeholder'>Placeholder</option>
-                </select>
-            </div>
-        )
     }
 
     async componentDidMount(){
@@ -103,18 +88,7 @@ export default class SearchForm extends React.Component {
                             name='name'
                             id='name'
                         />
-                        <OptionInput 
-                            options={options}
-                            attribute='species'
-                        />
-
-                        {/* <this.CreateOptions 
-                            options={options}
-                            attribute='species'
-                        /> */}
-
-                        {/* <this.CreateOptions attribute='ancestry' /> */}
-                        
+                                                
                         <fieldset>
                             <legend>Gender</legend>
                             <input
@@ -132,15 +106,13 @@ export default class SearchForm extends React.Component {
                             <label htmlFor='female'>Female</label>
                         </fieldset>
 
-                        {/* <this.CreateOptions attribute='house' /> */}
-
                         <input
                             type='checkbox'
                             id='alive'
                         />
                         <label htmlFor='living'>Living</label>
 
-                        {/* <this.CreateOptions attribute='book' /> */}
+                        <OptionInput options={options} />
 
                     </form>
                 }
