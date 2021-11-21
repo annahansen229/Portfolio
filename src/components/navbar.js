@@ -10,5 +10,6 @@ export default function Navbar() {
         <Link to='/search'>Characters</Link> |{" "}
         <Link to='/spells'>Spells</Link> |{" "}
         <Link to='/potions'>Potions</Link> |{" "}
+        <Link to='/credits'>Credits</Link> |{" "}
     </nav>
 }

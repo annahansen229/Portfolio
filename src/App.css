@@ -59,6 +59,7 @@ nav, a {
   font-size: 1.4em;
   font-family: "Harry Potter";
   position: inline-fixed;
+  text-align: center;
 }
 
 /*For the font for the tabs */
@@ -94,9 +95,12 @@ nav, a {
 div {
   color: white;
 }
+figcaption {
+  color:rgb(195, 6, 195);
+}
 legend {
   font-size: 2em;
-  color: rgb(195, 6, 195);
+  color: rgb(226, 10, 226);
 }
 label {
   font-size: 2em;
@@ -122,7 +126,7 @@ label {
   margin-top: 0px;
   padding: 20px;
   font-size: 4em;
-  color: rgb(209, 23, 23);
+  color: rgb(236, 12, 12);
   background-image: url("../src/images/hogwarts.jpg");
   background-size: 250px;
 }
@@ -137,4 +141,48 @@ label {
   background-image: url("../src/images/HogwartsHouses.jpg");
 }
 
+/*For the credits page */
+.creditsheader {
+  font-family: "Harry Potter";
+  margin-top: 20px;
+  padding-top: 20px;
+  color: rgb(66, 47, 148);
+  text-align: center;
+  font-size: 2.5em;
+}
+.creditsbody {
+  background-image: url("../src/images/quidditch.jpg");
+  height: 400px;
+}
 
+/*For the spells page  */
+
+.spellsheader {
+   margin-top: 0px;
+  padding-top: 50px;
+  padding-bottom: 75px;
+  color: #7fff00;
+  background-image: url("https://images.ctfassets.net/usf1vwtuqyxm/4L0FPfx6vY6Eq4coUwucSg/3d5396be068eddca7300e7036c3c3671/DiagonAlley_PM_B1C5M4_HarryAtOllivanders_Moment.jpg");
+  background-size: 600px;
+  font-family: "Harry Potter";
+  text-align: center;
+  font-size: 4em;
+  filter: brightness(120%);
+}
+
+.container {
+  text-align: center;
+  background-color: black;
+  height: 500px; 
+}
+
+.searchintro {
+  color:rgb(195, 6, 195);
+  font-family: "Harry Potter";
+}
+
+.searchresults {
+  color: red;
+  font-size: large;
+  font-family: "Harry Potter";
+}

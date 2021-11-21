@@ -4,13 +4,17 @@ import "../App.css";
 import Navbar from "../components/navbar.js";
 
 
-function Spells() {  
+function Spells() {
 
   return (
-    <div className = "Spells">
+    <div className="Spells">
       <Navbar />
+      <body className="spellsbody">
+        <h1 className="spellsheader"> Spells</h1>
+      </body>
     </div>
   );
 }
 
 export default Spells;
+

@@ -7,6 +7,9 @@ import Image4 from "../images/gryffindor.jpg";
 import Image5 from "../images/ravenclaw.jpg";
 import Image6 from "../images/hufflepuff.jpg";
 import Image7 from "../images/slytherin.jpg";
+import Image8 from "../images/hagrid.gif";
+import Image9 from "../images/harry-wizard.gif"
+import Audio from "../images/hedwigs_theme.mp3"
 
 import Navbar from "../components/navbar.js";
 
@@ -378,7 +381,13 @@ export default function Home() {
     <div className="Home">
       <Navbar />
       <h1 className="frontpage">The adventure begins...</h1>
-
+      <audio
+        controls
+        autoplay
+        src={Audio}
+        type="audio/mpeg"
+        alt="Hedwig's Theme"
+      ></audio>
       <figure>
         <img
           src="https://media.tumblr.com/tumblr_m9laumf6Wi1royzou.gif"
@@ -387,6 +396,16 @@ export default function Home() {
         />
         <figcaption>Hogwarts Letter</figcaption>
       </figure>
+
+      <figure>
+        <img src={Image8} width="100%" alt="hagrid gif" />
+        <figcaption>Hagrid</figcaption>
+      </figure>
+      <figure>
+        <img src={Image9} width="100%" alt="wizard gif" />
+        <figcaption>Wizard</figcaption>
+      </figure>
+
       <figure>
         <img src={Image} width="100%" alt="hedwig gif" />
         <figcaption>Hedwig</figcaption>
@@ -406,7 +425,12 @@ export default function Home() {
 
       {/*Implementing the Gryffindor House Quiz*/}
       <h2 className="quiztime"> Now it is your turn! </h2>
-      <form className = "sortinghat" action="" onClick={checkValue} onSubmit={checkValue}>
+      <form
+        className="sortinghat"
+        action=""
+        onClick={checkValue}
+        onSubmit={checkValue}
+      >
         <fieldset>
           <legend className="legend">Sorting Hat Quiz</legend>
           <legend>Q1: Dawn or Dusk?</legend>
@@ -455,7 +479,7 @@ export default function Home() {
         </fieldset>
 
         <fieldset>
-          <legend>Q6:How would you like to be known to history?</legend>
+          <legend>Q4:How would you like to be known to history?</legend>
           <div>
             <input type="radio" id="wise" name="question6" value="wise" />
             <label htmlFor="wise">The Wise</label>
@@ -479,7 +503,7 @@ export default function Home() {
         </fieldset>
         <fieldset>
           <legend>
-            Q7:Given the choice, would you rather invent a potion that would
+            Q5:Given the choice, would you rather invent a potion that would
             guarantee you:
           </legend>
           <div>
@@ -506,7 +530,7 @@ export default function Home() {
 
         <fieldset>
           <legend>
-            Q11:You enter an enchanted garden. What would you be most curious to
+            Q6:You enter an enchanted garden. What would you be most curious to
             examine first?
           </legend>
           <div>
@@ -546,7 +570,7 @@ export default function Home() {
         </fieldset>
 
         <fieldset>
-          <legend>Q15:Which would you rather be:</legend>
+          <legend>Q7:Which would you rather be:</legend>
           <div>
             <input type="radio" id="envied" name="question15" value="envied" />
             <label htmlFor="envied">Envied?</label>
@@ -593,7 +617,7 @@ export default function Home() {
         </fieldset>
         <fieldset>
           <legend>
-            Q16:If you could have any power, which would you choose?
+            Q8:If you could have any power, which would you choose?
           </legend>
           <div>
             <input type="radio" id="minds" name="question16" value="minds" />
@@ -648,7 +672,7 @@ export default function Home() {
         </fieldset>
         <fieldset>
           <legend>
-            Q17:What are you most looking forward to learning at Hogwarts?
+            Q9:What are you most looking forward to learning at Hogwarts?
           </legend>
           <div>
             <input
@@ -712,7 +736,7 @@ export default function Home() {
         </fieldset>
         <fieldset>
           <legend>
-            Q18:Which of the following would you most like to study?
+            Q10:Which of the following would you most like to study?
           </legend>
           <div>
             <input
@@ -774,7 +798,7 @@ export default function Home() {
         </fieldset>
         <fieldset>
           <legend>
-            Q19:You and two friends need to cross a bridge guarded by a river
+            Q11:You and two friends need to cross a bridge guarded by a river
             troll who insists on fighting one of you before he will let all of
             you pass. Do you:
           </legend>
@@ -830,7 +854,7 @@ export default function Home() {
 
         <fieldset>
           <legend>
-            Q25:If you were attending Hogwarts, which pet would you choose to
+            Q12:If you were attending Hogwarts, which pet would you choose to
             take with you?
           </legend>
           <div>
