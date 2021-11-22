@@ -1,7 +1,8 @@
+import React from "react"
+
 export default function OptionInput(props) {
     const { options, handleChange } = props
     
-    console.log('options', options)
     // let selectElements = options.map(([attribute, choices], index) => {
     let selectElements = Object.keys(options).map((attribute, index) => {
         // generate the option elements to go inside the select element
@@ -14,7 +15,7 @@ export default function OptionInput(props) {
 
         // generate the select element
         return (
-            <div className='select-option' key={index}>
+            <div className='search-param' key={index}>
                 <label htmlFor={attribute}>{attribute}</label>
                 <select 
                     name={attribute}
@@ -27,18 +28,5 @@ export default function OptionInput(props) {
         )
     })
     
-    return <fieldset>{selectElements}</fieldset>
+    return <React.Fragment>{selectElements}</React.Fragment>
 }
-    
-    // return (
-    //     <div>
-    //         <label htmlFor='species'>Species</label>
-    //         <select 
-    //             name='species'
-    //             id='species'
-    //         >
-    //             <option value='Human'>Human</option>
-    //             <option value='Non-Human'>Non-Human</option>
-    //         </select>
-    //     </div>
-    // )

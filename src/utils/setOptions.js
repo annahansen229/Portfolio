@@ -11,7 +11,6 @@ export default function setOptions(books, characters) {
     }
 
     // fill out the character-based option sets
-    console.log('characters in setOptions:', characters)
     for (const thisCharacter of characters) {
         
         // species option
