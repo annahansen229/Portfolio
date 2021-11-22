@@ -1,11 +1,5 @@
-import { useContext } from "react"
-import { UserContext } from "./UserContext"
 
-export default function setOptions() {
-    // get context data
-    const [books, setBooks] = useContext(UserContext)
-    const [characters, setCharacters] = useContext(UserContext)
-        
+export default function setOptions(books, characters) {
     // create an object to contain the options for the search parameters in the form of {attribute: [option, option, option]}
     // the house entries in the character data have other entries that are not related to Hogwarts like "House Black." These entries are ignored for our purposes and the list is manually set to only include Hogwarts houses.
     // the species and ancestry entries in the data contain multiples so these are instantiated as sets to avoid duplicate entries in the results. 
@@ -17,6 +11,7 @@ export default function setOptions() {
     }
 
     // fill out the character-based option sets
+    console.log('characters in setOptions:', characters)
     for (const thisCharacter of characters) {
         
         // species option

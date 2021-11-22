@@ -1,7 +1,7 @@
 export default function OptionInput(props) {
-    const { options } = props
-    console.log(typeof(options))
+    const { options, handleChange } = props
     
+    console.log('options', options)
     // let selectElements = options.map(([attribute, choices], index) => {
     let selectElements = Object.keys(options).map((attribute, index) => {
         // generate the option elements to go inside the select element
@@ -19,6 +19,7 @@ export default function OptionInput(props) {
                 <select 
                     name={attribute}
                     id={attribute}
+                    onChange={handleChange}
                 >
                     {optionElement}
                 </select>

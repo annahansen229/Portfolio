@@ -7,6 +7,7 @@ import Character from "../components/Character"
 import SearchForm from "../components/SearchForm"
 
 // import utilities
+import setOptions from "../utils/setOptions"
 
 class Search extends React.Component {
 
@@ -14,10 +15,12 @@ class Search extends React.Component {
         super(props)
         this.state = {
             books: [],
-            characters: [],
-            filteredCharacters: [],
-            charactersLoaded: false,
             booksLoaded: false,
+            characters: [],
+            charactersLoaded: false,
+            options: [],
+            optionsLoaded: false,
+            filteredCharacters: [],
             hasSearched: false,
         }
     }    
@@ -26,10 +29,8 @@ class Search extends React.Component {
         const url_characters = 'https://the-harry-potter-database.herokuapp.com/api/1/characters/all'
         
         // const url_characters = 'https://the-harry-potter-database.herokuapp.com/api/1/characters/756' // Albus Dumbledore for 
-        
 
         const url_books = 'https://the-harry-potter-database.herokuapp.com/api/1/books/all'
-
 
         fetch(url_characters)
         .then((response) => response.json())
@@ -38,7 +39,6 @@ class Search extends React.Component {
                 characters: data,
                 charactersLoaded: true
             })
-            console.log('got characters in Search', this.state.characters)
         })
 
         fetch(url_books)
@@ -48,12 +48,7 @@ class Search extends React.Component {
                 books: data,
                 booksLoaded: true
             })
-            console.log('got books in Search', this.state.books)
         })
-
-
-        
-        console.log('Search componentDidMount')
     }
 
     searchCharacters() {
@@ -87,6 +82,7 @@ class Search extends React.Component {
                     {booksLoaded && charactersLoaded && 
                         <div>
                             <h3>Search for Harry Potter Characters</h3>
+                            
                             <SearchForm 
                                 characters={characters}
                                 books={books}

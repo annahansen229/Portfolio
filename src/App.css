@@ -91,7 +91,7 @@ nav, a {
 }
 
 /*For the form on the homepage */
-div {
+div.Home {
   color: white;
 }
 legend {
