@@ -6,8 +6,8 @@ import Navbar from "../components/navbar"
 import Character from "../components/Character"
 import SearchForm from "../components/SearchForm"
 
-// import utilities
-import setOptions from "../utils/setOptions"
+// import styles
+import "../styles/Search.css"
 
 class Search extends React.Component {
 
@@ -79,7 +79,7 @@ class Search extends React.Component {
                         
                     }
 
-                    {booksLoaded && charactersLoaded && 
+                    {(booksLoaded && charactersLoaded) && 
                         <div>
                             <h3>Search for Harry Potter Characters</h3>
                             
@@ -87,14 +87,21 @@ class Search extends React.Component {
                                 characters={characters}
                                 books={books}
                             />
+                        
+                            <div className='results'>
+                                <Character 
+                                    characterData={characters}
+                                    books={books} 
+                                />
+                            </div>
                         </div>
 
                     }
                     
-                    {hasSearched && 
-                        // search results section isn't rendered until a search has been done
+                    {/* {hasSearched && 
                         <Character characterData={filteredCharacters} />
-                    }   
+                        // search results section isn't rendered until a search has been done
+                    }    */}
                 </div>
             </React.Fragment>
         )

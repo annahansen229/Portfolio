@@ -7,9 +7,15 @@ export default function OptionInput(props) {
     let selectElements = Object.keys(options).map((attribute, index) => {
         // generate the option elements to go inside the select element
         // let optionElement = choices.map((choice) => {
-        let optionElement = options[attribute].map((choice) => {
+        let optionElement = options[attribute].map((choice, attrIndex) => {
+            let uniqueKey = `${attribute}:${attrIndex}`
             return (
-                <option value={choice}>{choice}</option>
+                <option 
+                    value={choice}
+                    key={uniqueKey}
+                >
+                    {choice}
+                </option>
             )
         })
 

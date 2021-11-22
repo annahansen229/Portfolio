@@ -1,56 +1,6 @@
-:root {
-  --cyan: #17a2b8;
-}
-
-.App, .Houses, .Search, .Home {
-  text-align: center;
-}
-
-.search-input {
-  width: 45vw;
-  margin: auto
-}
-
-/* the page section containing all characters */
-.characters {
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: center;
-  width: 90vw;
-  margin: auto;
-  border-radius: 5px;
-}
-
-/* the container for a single character */
-.character {
-  display: inline-block;
-  box-sizing: border-box;
-  width: 220px;
-  text-align: center;
-  padding: 10px;
-}
-
-.character:hover {
-  background-color: var(--cyan);
-}
-
-/* To rescale images*/
-img {
-  height: 300px;
-  width: 100%;
-}
-
-button {
-  margin: 5px;
-}
-
-canvas {
-  /* background-color: bisque; */
-  width: 60vw;
-  margin: 0 auto;
-}
 
 
+/* nav bar styling */
 nav, a {
   font-weight: bolder;
   font-size: large;
