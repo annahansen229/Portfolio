@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import Navbar from "../components/navbar";
 import SpellSearch from "../components/SpellSearch";
 
-const spellsimg = `https://static.wikia.nocookie.net/harrypotter/images/0/0e/Alohomora.gif/revision/latest/scale-to-width-down/490?cb=20140811055322`;
-
 function Spells(props) {
   const spellData = SpellSearch();
   //console.log(spellData[1]); //woohoo!!! now

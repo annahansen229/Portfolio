@@ -12,8 +12,7 @@ useEffect(() => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        //next use setCharacters function and set
-        //it to the results array
+      
         setSpellnames(data);
         setIsLoaded(true);
       })
