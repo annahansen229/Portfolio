@@ -53,8 +53,8 @@ class Search extends React.Component {
     }
 
     formSubmitCallBack = (formData) => {
+        // calls the function to filter the character set, sets the state with the filtered set, and sets hasSearched to true so the results can be rendered to the page.
         const {characters, books} = this.state
-        
         this.setState({
             filteredCharacters: filterCharacters(characters, books, formData),
             hasSearched: true
@@ -62,6 +62,7 @@ class Search extends React.Component {
     }
 
     formResetCallBack = () => {
+        // sets hasSearched to false to remove the results from the page
         this.setState({
             hasSearched: false
         })

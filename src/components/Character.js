@@ -49,7 +49,11 @@ function Character(props) {
                 )
             }
         )
-        return element
+        return (
+            <div className='search-results'>
+                {element}      
+            </div>
+        ) 
     }
 }
 
