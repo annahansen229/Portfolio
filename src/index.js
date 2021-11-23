@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom"
 import Home from "./routes/Home.js"
 import Search from './routes/Search'
 import Spells from "./routes/Spells.js"
+import Potions from "./routes/Potions.js"
 import Credits from './routes/Credits.js';
 
 const rootElement = document.getElementById('root')
@@ -18,6 +19,7 @@ ReactDOM.render(
       <Route path="home" element={<Home />} />
       <Route path="search" element={<Search />} />
       <Route path="spells" element={<Spells />} />
+      <Route path="potions" element={<Potions />} />
       <Route path="credits" element={<Credits />} />
     </Routes>
   </BrowserRouter>,
