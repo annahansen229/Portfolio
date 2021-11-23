@@ -4,53 +4,59 @@ function Character(props) {
 
     // props:
     // characterData: array of characters
+    // books: array of books
     
     const { characterData, books } = props
     
-    let element = characterData.map (
-        (character, index) => {
-            return (
-                <div className='flip-card'>
-                    <div className='flip-card-inner'>
-                        <div className='flip-card-front'>
-                            <h3> {character.name} </h3>
-                            <table>
-                                <tbody>
-                                    <Tablerows 
-                                        character={character}
-                                        card='front'
-                                        books={books}
-                                    />
-                                </tbody>
-                            </table>    
-                        </div>
-                        <div className='flip-card-back'>
-                            <h3> {character.name} </h3>
-                            <table>
-                                <tbody>
-                                    <Tablerows 
+    if (characterData.length < 1) {
+        return (
+            <div className='empty-results'>
+                <p>No matching results. Please search again.</p>
+            </div>
+        )
+    } else {
+        let element = characterData.map (
+            (character, index) => {
+                return (
+                    <div className='flip-card'>
+                        <div className='flip-card-inner'>
+                            <div className='flip-card-front'>
+                                <h3> {character.name} </h3>
+                                <table>
+                                    <tbody>
+                                        <Tablerows 
                                             character={character}
-                                            card='back'
+                                            card='front'
                                             books={books}
                                         />
-                                </tbody>
-                            </table>
+                                    </tbody>
+                                </table>    
+                            </div>
+                            <div className='flip-card-back'>
+                                <h3> {character.name} </h3>
+                                <table>
+                                    <tbody>
+                                        <Tablerows 
+                                                character={character}
+                                                card='back'
+                                                books={books}
+                                            />
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                </div>
-            )
-        }
-
-    )
-
-    return element
-    
+                )
+            }
+        )
+        return element
+    }
 }
 
 function Tablerows(props) {
     const {character, card, books} = props
     
-    // function to return set of table rows of key, value from character
+    // function to return set of table rows to display key, value from single character
 
     const keysfront = ['birth', 'death', 'species', 'ancestry', 'gender', 'hair_color', 'eye_color']
 

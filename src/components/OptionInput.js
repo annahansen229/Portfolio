@@ -20,9 +20,16 @@ export default function OptionInput(props) {
         })
 
         // generate the select element
+        let labelText 
+        if (attribute === 'book') {
+            labelText = "First appeared in"
+        } else {
+            labelText = attribute
+        }
+        
         return (
             <div className='search-param' key={index}>
-                <label htmlFor={attribute}>{attribute}</label>
+                <label htmlFor={attribute}>{labelText}</label>
                 <select 
                     name={attribute}
                     id={attribute}

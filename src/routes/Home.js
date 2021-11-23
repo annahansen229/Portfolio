@@ -383,7 +383,7 @@ export default function Home() {
       <h1 className="frontpage">The adventure begins...</h1>
       <audio
         controls
-        autoplay
+        autoPlay
         src={Audio}
         type="audio/mpeg"
         alt="Hedwig's Theme"

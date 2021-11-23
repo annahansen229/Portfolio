@@ -6,23 +6,22 @@ import setOptions from "../utils/setOptions"
 import OptionInput from "./OptionInput"
 
 export default function SearchForm(props) {
-    const {books, characters, myFunc} = props
+    const {books, characters, submitHandler, resetHandler} = props
 
     const [form, setForm] = useState({
         // a local form state which mirrors the context form state and form input labels
-        characterName: '',
+        name: '',
         species: '',
         ancestry: '',
         gender: '',
         house: '',
-        living: '',
         book: '',
     })
 
     function handleChange(event){
         // get the change event values
         const { name, value} = event.target
-
+        
         //copy the form state and update it with the changes made
         const updatedForm = {
             ...form, 
@@ -31,18 +30,24 @@ export default function SearchForm(props) {
         
         // set the state with the values from the updated copy
         setForm(updatedForm)
-        console.log(form)
+    }
+
+    function onReset(event) {
+        const blankForm = {
+            name: '',
+            species: '',
+            ancestry: '',
+            gender: '',
+            house: '',
+            book: '',
+        }
+        setForm(blankForm)
+        resetHandler(blankForm)
     }
 
     function onSubmit(event) {
         event.preventDefault()
-        myFunc()
-
-        // // copy the form state
-        // const formState = {...form}
-
-        // // set the context with the form state
-        // setFormContext(formState)
+        submitHandler(form)
     }
 
     const choices = setOptions(books, characters)
@@ -53,8 +58,8 @@ export default function SearchForm(props) {
                 <label htmlFor='name'>Name:</label>
                 <input 
                     type='text'
-                    name='characterName'
-                    id='characterName'
+                    name='name'
+                    id='name'
                     onChange={handleChange}
                     
                 />
@@ -79,14 +84,6 @@ export default function SearchForm(props) {
                     <label htmlFor='female'>Female</label>
                 </fieldset>
             </div>
-            <div className='search-param'>
-                <input
-                    type='checkbox'
-                    id='alive'
-                    onChange={handleChange}
-                />
-                <label htmlFor='living'>Living</label>
-            </div>
 
             <OptionInput 
                 options={choices}
@@ -100,6 +97,7 @@ export default function SearchForm(props) {
             
             <input
                 type='reset'
+                onClick={onReset}
             />
         </form>
     )

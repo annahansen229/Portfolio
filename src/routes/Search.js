@@ -6,6 +6,9 @@ import Navbar from "../components/navbar"
 import Character from "../components/Character"
 import SearchForm from "../components/SearchForm"
 
+// import utils
+import filterCharacters from "../utils/filterCharacters"
+
 // import styles
 import "../styles/search.css"
 
@@ -18,8 +21,6 @@ class Search extends React.Component {
             booksLoaded: false,
             characters: [],
             charactersLoaded: false,
-            options: [],
-            optionsLoaded: false,
             filteredCharacters: [],
             hasSearched: false,
         }
@@ -51,10 +52,21 @@ class Search extends React.Component {
         })
     }
 
-    searchCharacters() {
-        console.log('searching for characters')
+    formSubmitCallBack = (formData) => {
+        const {characters, books} = this.state
+        
+        this.setState({
+            filteredCharacters: filterCharacters(characters, books, formData),
+            hasSearched: true
+        })
     }
 
+    formResetCallBack = () => {
+        this.setState({
+            hasSearched: false
+        })
+    }
+    
     render() {
         const { books, 
                 characters, 
@@ -66,9 +78,8 @@ class Search extends React.Component {
         return ( 
             <React.Fragment>
                 <div className='Search'>
-                    <h1>Harry Potter App</h1>
                     <Navbar/>
-                    <h2>Character Search Page</h2>
+                    <h3>Search for Harry Potter Characters</h3>
                     
                     {!charactersLoaded && 
                         <p>Character Data Loading...</p>
@@ -81,29 +92,21 @@ class Search extends React.Component {
                     }
 
                     {(booksLoaded && charactersLoaded) && 
-                        <div>
-                            <h3>Search for Harry Potter Characters</h3>
-                            
-                            <SearchForm 
-                                characters={characters}
-                                books={books}
-                                myFunc={this.searchCharacters}
-                            />
-                        
-                            <div className='results'>
-                                <Character 
-                                    characterData={characters}
-                                    books={books} 
-                                />
-                            </div>
-                        </div>
-
+                        <SearchForm 
+                            characters={characters}
+                            books={books}
+                            submitHandler={this.formSubmitCallBack}
+                            resetHandler={this.formResetCallBack}
+                        />
                     }
                     
-                    {/* {hasSearched && 
-                        <Character characterData={filteredCharacters} />
+                    {hasSearched && 
                         // search results section isn't rendered until a search has been done
-                    }    */}
+                        <Character 
+                            characterData={filteredCharacters}
+                            books={books} />
+                        
+                    }   
                 </div>
             </React.Fragment>
         )
