@@ -21,8 +21,9 @@ function Character(props) {
                     <div className='flip-card'>
                         <div className='flip-card-inner'>
                             <div className='flip-card-front'>
-                                <h3> {character.name} </h3>
-                                <table>
+                                <h3 className='character-name'> {character.name} </h3>
+                                <div className='title'>Character Bio</div>
+                                <table className='character'>
                                     <tbody>
                                         <Tablerows 
                                             character={character}
@@ -33,8 +34,9 @@ function Character(props) {
                                 </table>    
                             </div>
                             <div className='flip-card-back'>
-                                <h3> {character.name} </h3>
-                                <table>
+                                <h3 className='character-name'> {character.name} </h3>
+                                <div className='title'>Story Details</div>
+                                <table className='character'>
                                     <tbody>
                                         <Tablerows 
                                                 character={character}
@@ -50,7 +52,7 @@ function Character(props) {
             }
         )
         return (
-            <div className='search-results'>
+            <div className='character-container'>
                 {element}      
             </div>
         ) 
@@ -70,7 +72,7 @@ function Tablerows(props) {
         let tableRow = Object.keys(character).map((attribute, index) => {
             if (keysfront.includes(attribute)){
                 return (
-                    <tr>
+                    <tr className='bio'>
                         {/* underscores in the character attributes are replaced with spaces */}
                         <td className='category'>
                             {attribute.replace(/_/g, ' ')}:

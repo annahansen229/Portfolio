@@ -29,7 +29,7 @@ export default function OptionInput(props) {
         
         return (
             <div className='search-param' key={index}>
-                <label htmlFor={attribute}>{labelText}</label>
+                <label className='search select' htmlFor={attribute}>{labelText}</label>
                 <select 
                     name={attribute}
                     id={attribute}

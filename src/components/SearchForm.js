@@ -53,9 +53,9 @@ export default function SearchForm(props) {
     const choices = setOptions(books, characters)
 
     return (
-        <form>
+        <form className='search-container'>
             <div className='search-param'>
-                <label htmlFor='name'>Name:</label>
+                <label className='search text' htmlFor='name'>Name</label>
                 <input 
                     type='text'
                     name='name'
@@ -66,22 +66,26 @@ export default function SearchForm(props) {
             </div>
             <div className='search-param'>               
                 <fieldset>
-                    <legend>Gender</legend>
-                    <input
-                        type='radio'
-                        name='gender'
-                        value='male'
-                        onChange={handleChange}
-                    />
-                    <label htmlFor='male'>Male</label>
+                    <legend className='search'>Gender</legend>
+                    <div className='radio-option'>
+                        <input
+                            type='radio'
+                            name='gender'
+                            value='male'
+                            onChange={handleChange}
+                        />
+                        <label className='search radio' htmlFor='male'>Male</label>
+                    </div>
 
-                    <input
-                        type='radio'
-                        name='gender'
-                        value='female'
-                        onChange={handleChange}
-                    />
-                    <label htmlFor='female'>Female</label>
+                    <div className='radio-option'>
+                        <input
+                            type='radio'
+                            name='gender'
+                            value='female'
+                            onChange={handleChange}
+                        />
+                        <label className='search radio' htmlFor='female'>Female</label>
+                    </div>
                 </fieldset>
             </div>
 
@@ -89,16 +93,17 @@ export default function SearchForm(props) {
                 options={choices}
                 handleChange={handleChange} 
             />
-
-            <input
-                type='submit'
-                onClick={onSubmit}
-            />
-            
-            <input
-                type='reset'
-                onClick={onReset}
-            />
+            <div className='search-param button-container'>
+                <input
+                    type='submit'
+                    onClick={onSubmit}
+                />
+                
+                <input
+                    type='reset'
+                    onClick={onReset}
+                />
+            </div>
         </form>
     )
 }

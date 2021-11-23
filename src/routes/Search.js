@@ -80,7 +80,6 @@ class Search extends React.Component {
             <React.Fragment>
                 <div className='Search'>
                     <Navbar/>
-                    <h3>Search for Harry Potter Characters</h3>
                     
                     {!charactersLoaded && 
                         <p>Character Data Loading...</p>
@@ -92,22 +91,28 @@ class Search extends React.Component {
                         
                     }
 
-                    {(booksLoaded && charactersLoaded) && 
-                        <SearchForm 
-                            characters={characters}
-                            books={books}
-                            submitHandler={this.formSubmitCallBack}
-                            resetHandler={this.formResetCallBack}
-                        />
-                    }
+                    <div className='search-form'>
+                        <h3>Search for Harry Potter Characters</h3>
+                        {(booksLoaded && charactersLoaded) && 
+                            <SearchForm 
+                                characters={characters}
+                                books={books}
+                                submitHandler={this.formSubmitCallBack}
+                                resetHandler={this.formResetCallBack}
+                            />
+                        }
+                    </div>
                     
-                    {hasSearched && 
-                        // search results section isn't rendered until a search has been done
-                        <Character 
-                            characterData={filteredCharacters}
-                            books={books} />
-                        
-                    }   
+                    <div className='search-results'>
+                        <h3>Search Results</h3>
+                        {hasSearched && 
+                            // search results section isn't rendered until a search has been done
+                                <Character 
+                                    characterData={filteredCharacters}
+                                    books={books} />
+                                    
+                                }   
+                    </div>
                 </div>
             </React.Fragment>
         )
