@@ -6,9 +6,10 @@ import setOptions from "../utils/setOptions"
 import OptionInput from "./OptionInput"
 
 export default function SearchForm(props) {
-    const {books, characters} = props
+    const {books, characters, myFunc} = props
 
     const [form, setForm] = useState({
+        // a local form state which mirrors the context form state and form input labels
         characterName: '',
         species: '',
         ancestry: '',
@@ -34,7 +35,14 @@ export default function SearchForm(props) {
     }
 
     function onSubmit(event) {
+        event.preventDefault()
+        myFunc()
 
+        // // copy the form state
+        // const formState = {...form}
+
+        // // set the context with the form state
+        // setFormContext(formState)
     }
 
     const choices = setOptions(books, characters)
@@ -45,8 +53,8 @@ export default function SearchForm(props) {
                 <label htmlFor='name'>Name:</label>
                 <input 
                     type='text'
-                    name='name'
-                    id='name'
+                    name='characterName'
+                    id='characterName'
                     onChange={handleChange}
                     
                 />

@@ -7,7 +7,7 @@ import Character from "../components/Character"
 import SearchForm from "../components/SearchForm"
 
 // import styles
-import "../styles/Search.css"
+import "../styles/search.css"
 
 class Search extends React.Component {
 
@@ -52,6 +52,7 @@ class Search extends React.Component {
     }
 
     searchCharacters() {
+        console.log('searching for characters')
     }
 
     render() {
@@ -86,6 +87,7 @@ class Search extends React.Component {
                             <SearchForm 
                                 characters={characters}
                                 books={books}
+                                myFunc={this.searchCharacters}
                             />
                         
                             <div className='results'>

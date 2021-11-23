@@ -6,7 +6,7 @@ function Character(props) {
     // characterData: array of characters
     
     const { characterData, books } = props
-
+    
     let element = characterData.map (
         (character, index) => {
             return (
@@ -75,7 +75,6 @@ function Tablerows(props) {
     } else { // card === 'back'
         let tableRow = Object.keys(character).map((attribute, index) => {
             if (keysback.includes(attribute)){
-                
                 switch (attribute) {
                     case 'books_featured_in':
                         // the character data contains an array of books the character was featured in by number. The number corresponds to the id field in the books API data, and the index of the books API data is equal to the id minus 1 (because the index is zero based). This method creates an array of titles from the book data.
@@ -92,7 +91,6 @@ function Tablerows(props) {
                                 <td>{booklist.join(', ')}</td>
                             </tr>
                         )
-                        break
                         
                     case 'associated_groups':
                         // the character data contains an array of groups the character was a member of. The array needs to be formatted as a comma delimited string for display which is done with the .join() method.
@@ -105,7 +103,6 @@ function Tablerows(props) {
                                 <td>{character[attribute].join(', ')}</td>
                             </tr>
                         )
-                        break
                     
                     default:
                         // the other attributes for the back of the card are all handled the same way
@@ -118,12 +115,6 @@ function Tablerows(props) {
                             </tr>
                         )
                 }
-                // return (
-                //     <tr>
-                //         <td>{attribute.replace(/_/g, ' ')}:</td>
-                //         <td>{character[attribute]}</td>
-                //     </tr>
-                // )
             }
         })
         return tableRow
