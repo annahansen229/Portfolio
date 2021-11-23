@@ -6,7 +6,8 @@ import Navbar from "../components/navbar"
 import Character from "../components/Character"
 import SearchForm from "../components/SearchForm"
 
-// import utilities
+// import styles
+import "../styles/search.css"
 
 class Search extends React.Component {
 
@@ -14,10 +15,12 @@ class Search extends React.Component {
         super(props)
         this.state = {
             books: [],
-            characters: [],
-            filteredCharacters: [],
-            charactersLoaded: false,
             booksLoaded: false,
+            characters: [],
+            charactersLoaded: false,
+            options: [],
+            optionsLoaded: false,
+            filteredCharacters: [],
             hasSearched: false,
         }
     }    
@@ -26,10 +29,8 @@ class Search extends React.Component {
         const url_characters = 'https://the-harry-potter-database.herokuapp.com/api/1/characters/all'
         
         // const url_characters = 'https://the-harry-potter-database.herokuapp.com/api/1/characters/756' // Albus Dumbledore for 
-        
 
         const url_books = 'https://the-harry-potter-database.herokuapp.com/api/1/books/all'
-
 
         fetch(url_characters)
         .then((response) => response.json())
@@ -38,7 +39,6 @@ class Search extends React.Component {
                 characters: data,
                 charactersLoaded: true
             })
-            console.log('got characters in Search', this.state.characters)
         })
 
         fetch(url_books)
@@ -48,15 +48,11 @@ class Search extends React.Component {
                 books: data,
                 booksLoaded: true
             })
-            console.log('got books in Search', this.state.books)
         })
-
-
-        
-        console.log('Search componentDidMount')
     }
 
     searchCharacters() {
+        console.log('searching for characters')
     }
 
     render() {
@@ -84,21 +80,30 @@ class Search extends React.Component {
                         
                     }
 
-                    {booksLoaded && charactersLoaded && 
+                    {(booksLoaded && charactersLoaded) && 
                         <div>
                             <h3>Search for Harry Potter Characters</h3>
+                            
                             <SearchForm 
                                 characters={characters}
                                 books={books}
+                                myFunc={this.searchCharacters}
                             />
+                        
+                            <div className='results'>
+                                <Character 
+                                    characterData={characters}
+                                    books={books} 
+                                />
+                            </div>
                         </div>
 
                     }
                     
-                    {hasSearched && 
-                        // search results section isn't rendered until a search has been done
+                    {/* {hasSearched && 
                         <Character characterData={filteredCharacters} />
-                    }   
+                        // search results section isn't rendered until a search has been done
+                    }    */}
                 </div>
             </React.Fragment>
         )

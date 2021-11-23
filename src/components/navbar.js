@@ -9,7 +9,10 @@ export default function Navbar() {
         <Link to='/home'>Home</Link> |{" "}
         <Link to='/search'>Characters</Link> |{" "}
         <Link to='/spells'>Spells</Link> |{" "}
+<<<<<<< HEAD
         <Link to='/potions'>Potions</Link> |{" "}
         <Link to='/credits'>Credits</Link> |{" "}
+=======
+>>>>>>> anna
     </nav>
 }
