@@ -10,7 +10,7 @@ import SearchForm from "../components/SearchForm"
 import filterCharacters from "../utils/filterCharacters"
 
 // import styles
-import "../styles/search.css"
+import '../styles/characters.css'
 
 class Characters extends React.Component {
 
