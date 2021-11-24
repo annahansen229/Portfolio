@@ -81,6 +81,9 @@ function Tablerows(props) {
                         <td>{character[attribute]}</td>
                     </tr>
                 )
+            } else {
+                // not using this key but have to return something
+                return <></>
             }
         })
         return tableRow
@@ -128,6 +131,8 @@ function Tablerows(props) {
                             </tr>
                         )
                 }
+            }else {
+                return <></>
             }
         })
         return tableRow

@@ -1,10 +1,8 @@
-import { useState, useEffect, useCallback } from "react";
-import Potions from "../routes/Potions.js";
+import { useState, useEffect } from "react";
 
 function PotionSearch() {
   const url = `https://the-harry-potter-database.herokuapp.com/api/1/potions/all/`;
   let [potionnames, setPotionnames] = useState([]);
-  let [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     fetch(url)
@@ -13,7 +11,6 @@ function PotionSearch() {
         console.log(data);
     
         setPotionnames(data);
-        setIsLoaded(true);
       })
       .catch((error) => console.log(error));
   }, [url]); //can put url here but it never changes
