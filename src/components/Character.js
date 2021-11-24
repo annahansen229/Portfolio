@@ -8,13 +8,14 @@ function Character(props) {
     
     const { characterData, books } = props
     
+    // test if the characterData has any data in it. Display a message if not.
     if (characterData.length < 1) {
         return (
             <div className='empty-results'>
                 <p>No matching results. Please search again.</p>
             </div>
         )
-    } else {
+    } else { // characterData has data. Generate the cards for each character in the data
         let element = characterData.map (
             (character, index) => {
                 return (

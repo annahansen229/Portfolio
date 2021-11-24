@@ -22,21 +22,22 @@
   text-align: center;
 }
 
-/* section headers */
-h3.section-title {
-  background-color: var(--purple);
-}
-
 /**********************************************************/
 /*                 Search Form Styling                    */ 
 /**********************************************************/
 
+/* container for form elements */
 form.search-container {
   display: flex;
   flex-flow: row wrap;
   justify-content: center;  
   margin:auto;
   text-align: left;  
+}
+
+p.search-instructions {
+  width: 60%;
+  margin: 5px auto 5px auto;
 }
 
 /* container for label and input */
@@ -73,7 +74,7 @@ select, input[type='text'] {
   width: 100%;
 }
 
-/* styling the lables for the search parameters */
+/* styling the labels for the search parameters */
 label.search, legend.search {
   text-transform: capitalize;
   font-size: medium;
@@ -82,12 +83,12 @@ label.search, legend.search {
   margin: 3px;
 }
 
-/* put the labels on the line above the input element */
+/* put the labels on the line above the input element (except radio buttons which will remain in-line) */
 label.text, label.select {
   display: block;
 }
 
-/* spread the radio elements out across the div */
+/* spread the radio elements out across the parent div on one line */
 .radio-option {
   display: inline-block;
   width: 45%;
@@ -172,10 +173,13 @@ td.category {
   .flip-card:hover .flip-card-inner {
     transform: rotateY(180deg);
   }
+
+  .flip-card-back {
+    transform: rotateY(180deg); 
+  }
   
   .flip-card-front, .flip-card-back {
-    
-    /* Position the front and back side */
+    /* Position the front and back side within the parent*/
     position: absolute;
     width: 100%;
     height: 100%;
@@ -188,14 +192,3 @@ td.category {
     border: 1px solid #f1f1f1;
     overflow-y: auto;
   }
-  
-  /* Style the front side (fallback if image is missing) */
-  .flip-card-front {
-  }
-  
-  /* Style the back side */
-  .flip-card-back {
-    transform: rotateY(180deg); 
-    
-  }
-

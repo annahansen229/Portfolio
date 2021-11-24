@@ -5,7 +5,7 @@ import './index.css';
 
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import Home from "./routes/Home.js"
-import Search from './routes/Search'
+import Characters from './routes/Characters';
 import Spells from "./routes/Spells.js"
 import Potions from "./routes/Potions.js"
 import Credits from './routes/Credits.js';
@@ -17,7 +17,7 @@ ReactDOM.render(
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="home" element={<Home />} />
-      <Route path="search" element={<Search />} />
+      <Route path="characters" element={<Characters />} />
       <Route path="spells" element={<Spells />} />
       <Route path="potions" element={<Potions />} />
       <Route path="credits" element={<Credits />} />

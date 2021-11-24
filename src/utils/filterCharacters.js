@@ -1,5 +1,5 @@
 export default function filterCharacters(characters, books, form) {
-    // takes the API data and filters it according to the user's selection on the form
+    // takes the API data and filters it according to the user's selections on the form
 
     // start the filtered set as an exact copy of the original
     let filteredCharacters = characters
