@@ -6,18 +6,18 @@
 }
 
 html {
-  background-color: var(--light-gray);
+  background-color: var(--off-white);
 }
 /* Page */
 .Search {
-  background-color: var(--light-gray);
+  background-color: var(--off-white);
   font-family: "Liberation Sands"; 
 }
 
 /* each section of the page */
 .search-form, .search-results {
   width: 90vw;
-  background-color: var(--off-white);
+  background-color: var(--light-gray);
   border-radius: 5px;
   padding: 5px;
   margin: 5px auto 5px;
@@ -35,18 +35,18 @@ form.search-container {
   flex-flow: row wrap;
   justify-content: center;  
   margin:auto;
-  text-align: left;  
+  text-align: left;
+  max-width: 1000px; /*limit to max of 3 search params per row*/ 
 }
 
 p.search-instructions {
-  width: 60%;
   margin: 5px auto 5px auto;
 }
 
 /* container for label and input */
 div.search-param {
   display: inline-block;
-  width: 300px;
+  width: 300px; /*match all divs to biggest input element (books)*/
   background-color: var(--purple);
   margin: 5px;
   padding: 5px;
@@ -57,7 +57,7 @@ div.search-param {
 div.search-param.button-container {
   display: flex;
   flex-direction: row;
-  background-color: var(--off-white);
+  background-color: var(--light-gray);
   width: 100%; /* makes this container always on it's own row*/
   justify-content: center; /* centers the buttons in this container*/
 
@@ -106,7 +106,7 @@ label.text, label.select {
 .character-container {
     display: flex;
     flex-flow: row wrap;
-    justify-content: center;
+    justify-content:center;
 }
 
 /* card front/back title */
@@ -157,7 +157,7 @@ td.category {
 
 .flip-card {
     margin: 5px;
-    width: 48%;
+    width: 500px; 
     height: 330px;
     perspective: 1000px; 
   }

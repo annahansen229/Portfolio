@@ -97,12 +97,7 @@ class Characters extends React.Component {
                                 <p className='search-instructions'>
                                     Use one or more search values below to see characters from the Harry Potter series.
                                 </p>
-                                <p className='search-instructions'>
-                                    You can use the name field to find a single character by entering their full name, like 'Hermione Granger,' or a group of characters by entering the name they have in common, like 'Weasley,' to see all members of the Weasley family.
-                                </p>
-                                <p className='search-instructions'>
-                                    The species and ancestry search options will return any character with a partial match. For example, searching for 'Giant' will return characters whose species is 'Giant' or 'Half-Giant/Half-Human'.
-                                </p>
+                                
                                 <p className='search-instructions'>
                                     To see all characters in the entire series, leave all the search terms blank.
                                 </p>

@@ -11,6 +11,7 @@ The data used in this application was supplied by The Harry Potter Database: htt
 In addition to course materials, these websites were used as references in creating this application.
 
 https://www.w3schools.com/js/js_json.asp
+https://www.valentinog.com/blog/html-table/
 https://www.reddit.com/r/sheets/comments/oeio2n/return_1st_google_image_search_result_based_on/
 https://www.w3schools.com/howto/howto_css_flip_card.asp
 https://reactjs.org/docs/forms.html
