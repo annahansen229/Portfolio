@@ -2,6 +2,8 @@
 {% block content %}
     <h3>Your Results:</h3>
     <p class=results>
+        {{data}}
+        
         The name {{ data.name }} was #{{ data.nameRank }} in popularity in the year {{ data.year }}. <br><br>
         
         The most popular name in {{ data.year }} was {{ data.popularName }}. <br><br>

@@ -14,4 +14,4 @@ class Sign(MethodView):
         # request.form['name']
         # request.form['year']
 
-        return redirect(url_for('index'))
+        return redirect(url_for('view'))
