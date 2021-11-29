@@ -1,9 +1,8 @@
 from flask import render_template
 from flask.views import MethodView
-import gbmodel
 
 class View(MethodView):
     def get(self):
-        model = gbmodel.get_model()
-        reviews = [dict(department=row[0], course_no=row[1], quarter=row[2], year=row[3], instructor=row[4], review=row[5], signed_on=row[6]) for row in model.select()]
-        return render_template('view.html',reviews=reviews)
+        data = [dict(name='My name', year='My birth year', nameRank='My name rank', popularName='My most popular name', topMovie='My most popular movie', topSong='My most popular song')]
+        
+        return render_template('view.html', data=data)

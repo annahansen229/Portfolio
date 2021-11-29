@@ -1,5 +1,5 @@
 """
-A simple course review site flask app.
+A simple name and birth year trivia site flask app.
 """
 import flask
 from flask.views import MethodView

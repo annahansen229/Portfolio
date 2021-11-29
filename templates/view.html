@@ -1,16 +1,23 @@
 {% extends "layout.html" %}
 {% block content %}
-<h3><a href="{{ url_for('index') }}">Home</a></h3>
-    <h3>View Reviews</h3>
-    {% for review in reviews %}
-        <p class=review>
-            Department: {{ review.department }} <br>
-            Course No: {{ review.course_no }} <br>
-            Quarter/Year: {{ review.quarter }} {{ review.year }} <br>
-            Instructor: {{ review.instructor }} <br>
-            Review: {{ review.review }} <br>
-            Posted: {{ review.signed_on }} <br>
-        </p>    
-    {% endfor %}
+    <h3>Your Results:</h3>
+    <p class=results>
+        The name {{ data.name }} was #{{ data.nameRank }} in popularity in the year {{ data.year }}. <br><br>
+        
+        The most popular name in {{ data.year }} was {{ data.popularName }}. <br><br>
+
+        Here is a chart showing the popularity of the name {{ data.name }} over the years:<br><br>
+
+        <img src=https://placekitten.com/200/300 alt=placeholder><br><br>
+
+        The most popular movie in {{ data.year }} was {{ data.topMovie }} and I will hopefully be putting the movie image here: <br><br>
+
+        <img src=https://placekitten.com/200/300 alt=placeholder><br><br>
+
+        The most popular song was {{ data.topSong}} and I will hopefully be embedding the song here:<br><br>
+
+        <audio controls src=/media/cc0-audio/t-rex-roar.mp3></audio><br><br>
+        
+    </p>    
     <h3><a href="{{ url_for('index') }}">Home</a></h3>
 {% endblock %}
