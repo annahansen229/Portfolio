@@ -15,6 +15,13 @@ def getNamesData(name, year, gender):
     # the big query public dataset I am querying
     dataset = 'bigquery-public-data.usa_names.usa_1910_2013'
 
+    # values to be sent back begin as empty strings in case query returns no result
+    topName = ''
+    nameRank = ''
+
+    # placeholder image will be updated later with real url
+    chartURL = 'https://placekitten.com/200/300'
+
     # ----------------------------------------------------
     #           get the top name for the year
     # ----------------------------------------------------
@@ -68,8 +75,7 @@ def getNamesData(name, year, gender):
 
     df = client.query(chartDataQueryString).to_dataframe()
 
-    chartURL = 'https://placekitten.com/200/300'
-    #TODO need to create chart and save it somewhere so that I can return the url to the page for rendering
+    #TODO need to create chart and save it somewhere then set chartURL to the url
 
     return topName, nameRank, chartURL
 
