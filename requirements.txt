@@ -1,5 +1,6 @@
 flask
 google-cloud-bigquery
 gunicorn
-
+pandas
+pyarrow
 
