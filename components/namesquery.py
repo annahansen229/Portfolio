@@ -1,7 +1,12 @@
 from google.cloud import bigquery
 
-def namesquery(name, year, gender):
-    client = bigquery.Client()
+def namesquery():
+    # for production put name, year, gender into function arguments
+    name = 'Anna'
+    year = '1985'
+    gender = 'F'
+    
+    client = bigquery.Client('cloud-f21-anna-hansen-ahansen')
 
     dataset = 'bigquery-public-data.usa_names.usa_1910_2013'
 
@@ -43,6 +48,6 @@ def namesquery(name, year, gender):
     nameRank = nameRankQueryJob.result()
     chartData = chartDataQueryJob.result()
 
-    print topName
+    print(topName)
 
     return ([name, year])

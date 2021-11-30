@@ -9,9 +9,10 @@ class View(MethodView):
         # form fields
         # request.form['name']
         # request.form['year']
+        # request.form['gender']
 
-        
 
-        data = dict(name=request.form['name'], year=request.form['year'], nameRank='post rank', popularName='post popular name', topMovie='post popular movie', topSong='post popular song')
+
+        data = dict(name=request.form['name'], year=request.form['year'], gender=request.form['gender'],nameRank='post rank', popularName='post popular name', topMovie='post popular movie', topSong='post popular song')
         
         return render_template('view.html', data=data)
