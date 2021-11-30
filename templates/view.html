@@ -2,14 +2,15 @@
 {% block content %}
     <h3>Your Results:</h3>
     <p class=results>
-        The name {{ data.name }} was the #{{ data.nameRank }} {{ data.gender }} name in the year {{ data.year }}. <br><br>
+        
+        The name {{ data.name }} was ranked #{{ data.nameRank }} in all {{ data.gender }} names for the year {{ data.year }}. <br><br>
         
         The most popular {{ data.gender }} name in {{ data.year }} was {{ data.popularName }}. <br><br>
 
         Here is a chart showing the popularity of the name {{ data.name }} over the years:<br><br>
 
         <!-- #TODO need to use chartURL here -->
-        <img src=https://placekitten.com/200/300 alt=placeholder><br><br>
+        <img src="{{ data.chartURL }}" alt=placeholder><br><br>
 
         The most popular movie in {{ data.year }} was {{ data.topMovie }} and I will hopefully be putting the movie image here: <br><br>
 
