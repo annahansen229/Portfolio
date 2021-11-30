@@ -1,6 +1,7 @@
 from flask import render_template, request
 from flask.views import MethodView
 from namesquery import getNamesData
+from chart import getChart
 
 class View(MethodView):
     def post(self):
@@ -15,7 +16,8 @@ class View(MethodView):
         year = request.form['year']
         gender = request.form['gender']
 
-        topName, nameRank, chartURL = getNamesData(name, year, gender)
+        topName, nameRank = getNamesData(name, year, gender)
+        chartURL = getChart(name, year, gender)
         
         # re-write gender value for display on page
         if gender == 'M':

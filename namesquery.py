@@ -1,6 +1,4 @@
 from google.cloud import bigquery
-import pandas as pd
-import numpy as np
 
 def getNamesData(name, year, gender):
 
@@ -18,9 +16,6 @@ def getNamesData(name, year, gender):
     # values to be sent back begin as empty strings in case query returns no result
     topName = ''
     nameRank = ''
-
-    # placeholder image will be updated later with real url
-    chartURL = 'https://placekitten.com/200/300'
 
     # ----------------------------------------------------
     #           get the top name for the year
@@ -61,22 +56,6 @@ def getNamesData(name, year, gender):
     for row in results:
         nameRank = row['ranking']
 
-    # ----------------------------------------------------
-    #           get data for the chart of the name
-    # ----------------------------------------------------
-    chartDataQueryString = (
-        f'SELECT year, sum(number) as total '
-        f'FROM `{dataset}` '
-        f'WHERE gender="{gender}" '
-        f'AND name="{name}" '
-        f'GROUP BY name, year '
-        f'ORDER BY year '
-    )
-
-    df = client.query(chartDataQueryString).to_dataframe()
-
-    #TODO need to create chart and save it somewhere then set chartURL to the url
-
-    return topName, nameRank, chartURL
+    return topName, nameRank
 
 
