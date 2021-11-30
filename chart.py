@@ -1,14 +1,14 @@
 from google.cloud import bigquery
-import pandas as pd
-import numpy as np
+import pandas
+import numpy
+import matplotlib
 
 
-# def getChart(name, year, gender):
+# def getChart(name, gender):
 
 # values used for testing queries
-# name = 'Anna'
-# year = '1985'
-# gender = 'F'
+name = 'Anna'
+gender = 'F'
 
 # instantiate the bq client
 client = bigquery.Client('cloud-f21-anna-hansen-ahansen')
@@ -32,6 +32,9 @@ chartDataQueryString = (
 )
 
 df = client.query(chartDataQueryString).to_dataframe()
+plot = df.plot(x='year', y='total', title=f'Babies Named {name} 1910-2013', legend=False) #kind='line' is default
+fig = plot.get_figure()
+fig.savefig("output.jpg")
 
 #TODO need to create chart and save it somewhere then set chartURL to the url
 

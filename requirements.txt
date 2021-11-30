@@ -3,4 +3,4 @@ google-cloud-bigquery
 gunicorn
 pandas
 pyarrow
-
+matplotlib

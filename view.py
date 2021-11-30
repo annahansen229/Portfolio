@@ -17,7 +17,7 @@ class View(MethodView):
         gender = request.form['gender']
 
         topName, nameRank = getNamesData(name, year, gender)
-        chartURL = getChart(name, year, gender)
+        chartURL = getChart(name, gender)
         
         # re-write gender value for display on page
         if gender == 'M':
