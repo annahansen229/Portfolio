@@ -2,8 +2,6 @@
 {% block content %}
     <h3>Your Results:</h3>
     <p class=results>
-        {{data}}
-        
         The name {{ data.name }} was #{{ data.nameRank }} in popularity in the year {{ data.year }}. <br><br>
         
         The most popular name in {{ data.year }} was {{ data.popularName }}. <br><br>
@@ -21,5 +19,5 @@
         <audio controls src=/media/cc0-audio/t-rex-roar.mp3></audio><br><br>
         
     </p>    
-    <h3><a href="{{ url_for('index') }}">Home</a></h3>
+    <h3><a href="{{ url_for('index') }}">Start Over</a></h3>
 {% endblock %}

@@ -15,11 +15,11 @@ app.add_url_rule('/',
 
 app.add_url_rule('/sign',
                  view_func=Sign.as_view('sign'),
-                 methods=['GET', 'POST'])
+                 methods=['GET'])
 
 app.add_url_rule('/view',
                  view_func=View.as_view('view'),
-                 methods=['GET'])
+                 methods=['POST'])
 
 
 if __name__ == '__main__':
