@@ -54,6 +54,7 @@ legend {
 }
 label {
   font-size: 2em;
+  color: white;
 }
 .sortinghat { /*For Sorting Hat Quiz on homepage */
   size: auto;
