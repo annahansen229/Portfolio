@@ -2,21 +2,26 @@
 {% block content %}
     <h3>Your Results:</h3>
     <p class=results>
-        The name {{ data.name }} was {{ data.rankString }} in the year {{ data.year }}. <br><br>
-                                     
-        {{ data.popularNameString }} <br><br>
+        <!-- display rank of name if nameRank has a value -->
+        {% if data.nameRank > 0 %}
+            The name {{ data.name }} was ranked #{{ data.nameRank }} in the year {{ data.year }}. <br><br>
+        {% else %}
+            The name {{ data.name }} was not ranked in the year {{ data.year }}. <br><br>
+        {% endif %}
+        
+        <!-- display most popular name of year if topName has a value-->
+        {% if data.topName|length > 0 %}
+            The most popular {{ data.gender }} name in the year {{ data.year }} was {{ data.topName }}.<br><br>
+        {% else %}
+            There was no most popular {{ data.gender }} name in the year {{ data.year }}.<br><br>
+        {% endif %}              
 
-        Here is a chart showing the popularity of the name {{ data.name }} over the years:<br><br>
+        <!-- display chart of name popularity if chartURL has a value-->
+        {% if data.chartURL|length > 0 %}
+            This chart shows how the popularity of the name {{ data.name }} has changed over the years:<br><br>
 
-        <img src="{{ data.chartURL }}" alt=placeholder><br><br>
-
-        The most popular movie in {{ data.year }} was {{ data.topMovie }} and I will hopefully be putting the movie image here: <br><br>
-
-        <img src=https://placekitten.com/200/300 alt=placeholder><br><br>
-
-        The most popular song was {{ data.topSong}} and I will hopefully be embedding the song here:<br><br>
-
-        <audio controls src=/media/cc0-audio/t-rex-roar.mp3></audio><br><br>
+            <img src="{{ data.chartURL }}" alt='name chart'><br><br>
+        {% endif %}
         
     </p>    
     <h3><a href="{{ url_for('index') }}">Start Over</a></h3>

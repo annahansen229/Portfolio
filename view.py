@@ -25,20 +25,6 @@ class View(MethodView):
         elif gender == 'F':
             gender = 'female'
 
-        # handles an unranked name
-        rankString = ''
-        if len(nameRank) < 1:
-            rankString = 'not ranked'
-        else:
-            rankString = f'ranked #{nameRank} of all {gender} names'
-
-        # handles a year with no top name
-        popularNameString = ''
-        if len(topName) < 1:
-            popularNameString = f'There was no most popular {gender} name in the year {year}.'
-        else:
-            popularNameString = f'The most popular {gender} name in the year {year} was {topName}.'
-
-        data = dict(name=name, year=year, gender=gender, rankString=rankString, popularNameString=popularNameString, topMovie='post popular movie', topSong='post popular song', chartURL=chartURL)
+        data = dict(name=name, year=year, gender=gender, nameRank=nameRank, topName=topName, topMovie='post popular movie', topSong='post popular song', chartURL=chartURL)
         
         return render_template('view.html', data=data)
