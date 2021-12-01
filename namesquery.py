@@ -15,7 +15,7 @@ def getNamesData(name, year, gender):
 
     # values to be sent back begin as empty strings in case query returns no result
     topName = ''
-    nameRank = ''
+    nameRank = 0
 
     # ----------------------------------------------------
     #           get the top name for the year
