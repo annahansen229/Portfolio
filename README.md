@@ -1,6 +1,6 @@
 # FrontEnd_HarryPotter
 Final Project for CS 510, Front End Web Development Fall 2021
-https://fredandgeorgeweasley.herokuapp.com/
+https://frontendharrypotter.herokuapp.com/
 An application developed using react, to retrieve API data and output key metrics.
 # Authors
 Anna Hansen
