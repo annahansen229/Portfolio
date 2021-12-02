@@ -49,5 +49,9 @@
   },
   "devDependencies": {
     "gh-pages": "^3.2.3"
-  }
+  },
+  "description": "Final Project for CS 510, Front End Web Development Fall 2021",
+  "main": "index.js",
+  "author": "",
+  "license": "ISC"
 }
