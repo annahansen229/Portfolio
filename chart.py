@@ -15,7 +15,7 @@ def getChart(name, gender):
     bq_client = bigquery.Client('cloud-f21-anna-hansen-ahansen')
         
     # the big query public dataset I am querying
-    dataset = 'bigquery-public-data.usa_names.usa_1910_2013'
+    dataset = 'bigquery-public-data.usa_names.usa_1910_current'
     
     # query string
     chartDataQueryString = (
@@ -43,7 +43,7 @@ def getChart(name, gender):
         filename = f'{name}-chart.jpg'
 
         df = job.to_dataframe()
-        plot = df.plot(x='year', y='total', title=f'Babies Named {name} 1910-2013', legend=False) #kind='line' is default
+        plot = df.plot(x='year', y='total', title=f'Babies Named {name} 1910-2020', legend=False) #kind='line' is default
         fig = plot.get_figure()
         fig.savefig(filename)
 

@@ -11,7 +11,7 @@ def getNamesData(name, year, gender):
     client = bigquery.Client('cloud-f21-anna-hansen-ahansen')
     
     # the big query public dataset I am querying
-    dataset = 'bigquery-public-data.usa_names.usa_1910_2013'
+    dataset = 'bigquery-public-data.usa_names.usa_1910_current'
 
     # values to be sent back begin as empty strings in case query returns no result
     topName = ''
