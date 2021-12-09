@@ -1,13 +1,11 @@
 from google.cloud import bigquery
 
 def getNamesData(name, year, gender):
-
-    # values used for testing queries
-    # name = 'Anna'
-    # year = '1985'
-    # gender = 'F'
-
-    # instantiate the bq client
+    """
+    Executes the queries to return the rank of the name/gender entered by the user
+    and the top name for the year/gender entered by the user.
+    """
+    # instantiate the BigQuery client
     client = bigquery.Client('cloud-f21-anna-hansen-ahansen')
     
     # the big query public dataset I am querying
@@ -32,7 +30,8 @@ def getNamesData(name, year, gender):
 
     results = client.query(topNameQueryString)
 
-    # I would like to directly access the row rather than iterating over the object, but I can't find out how. This approach assumes there will only be one row, which only works because my query results are limited to one row. If there were more than one row this would not work as-is.
+    # if the query is not empty this will grab the top name from the single result returned
+    # if the query is empty nothing will happen here and the top name will stay blank
     for row in results:
         topName = row['name']
 
@@ -52,7 +51,8 @@ def getNamesData(name, year, gender):
 
     results = client.query(nameRankQueryString)
 
-    # This has the same problem described above. 
+    # if the query is not empty this will grab the rank of the name from the single result returned
+    # if the query is empty nothing will happen here and the rank name will stay 0 
     for row in results:
         nameRank = row['ranking']
 

@@ -7,11 +7,15 @@ import os
 
 
 def getChart(name, gender):
+    """
+    Executes the query to get data for the chart, creates the chart and saves it to the cloud storage
+    bucket so it can be displayed on the website.
+    """
     # ----------------------------------------------------
     #           get data for the chart of the name
     # ----------------------------------------------------
     
-    # instantiate the bq client
+    # instantiate the BigQuery client
     bq_client = bigquery.Client('cloud-f21-anna-hansen-ahansen')
         
     # the big query public dataset I am querying

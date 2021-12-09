@@ -8,10 +8,6 @@ class View(MethodView):
         """
         Accepts POST requests, and processes the form
         """
-        # form fields
-        # request.form['name']
-        # request.form['year']
-        # request.form['gender']
         name = request.form['name']
         year = request.form['year']
         gender = request.form['gender']
