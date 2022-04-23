@@ -20,17 +20,23 @@ getValue (False, False, False, False, False, False, False, False, True) = Just 9
 getValue _ = Nothing
 
 -- Depending on which value is being recorded, set that place to True and the rest to False.
-setValue :: Int -> Maybe Value
-setValue 1 = Just (True, False, False, False, False, False, False, False, False)  
-setValue 2 = Just (False, True, False, False, False, False, False, False, False)  
-setValue 3 = Just (False, False, True, False, False, False, False, False, False)    
-setValue 4 = Just (False, False, False, True, False, False, False, False, False)    
-setValue 5 = Just (False, False, False, False, True, False, False, False, False)    
-setValue 6 = Just (False, False, False, False, False, True, False, False, False)    
-setValue 7 = Just (False, False, False, False, False, False, True, False, False)    
-setValue 8 = Just (False, False, False, False, False, False, False, True, False)    
-setValue 9 = Just (False, False, False, False, False, False, False, False, True)    
-setValue _ = Nothing
+setValue :: Int -> Value
+setValue 1 = (True, False, False, False, False, False, False, False, False)  
+setValue 2 = (False, True, False, False, False, False, False, False, False)  
+setValue 3 = (False, False, True, False, False, False, False, False, False)    
+setValue 4 = (False, False, False, True, False, False, False, False, False)    
+setValue 5 = (False, False, False, False, True, False, False, False, False)    
+setValue 6 = (False, False, False, False, False, True, False, False, False)    
+setValue 7 = (False, False, False, False, False, False, True, False, False)    
+setValue 8 = (False, False, False, False, False, False, False, True, False)    
+setValue 9 = (False, False, False, False, False, False, False, False, True)    
+setValue _ = (False, False, False, False, False, False, False, False, False)    
+
+-- I did this to prevent another layer of Maybe
+-- I only need it in updatePuzzle
+-- I do not want to carry around a Maybe Value inside a Maybe Entry
+badValue :: Value
+badValue = (False, False, False, False, False, False, False, False, False)
 
 -- A Notepad is a special form of a sudoku value
 type Notepad = Value
@@ -283,12 +289,11 @@ updatePuzzle p x (i, j) g =
                     (\(r, c) ->
                         if (i, j) == (r, c) then
                             let v = setValue x in
-                                case v of
-                                    Nothing -> 
-                                        -- if setValue returned Nothing, the input value was invalid. Return the cell as it was.
-                                        (e, n)
-                                    Just v' -> 
-                                        (Just (g v'), n)
+                                if v == badValue then
+                                    -- The input value was invalid. Return the cell as it was.
+                                    (e, n)
+                                else 
+                                    (Just (g v), n)
                         else
                             p (r, c)
                     )
