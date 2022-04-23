@@ -84,8 +84,11 @@ cellToString :: Cell -> String
 cellToString (e, n) = 
     case e of 
         Nothing -> " "
-        Just g v -> 
-            -- don't care what g is 
+        Just (Guess v) -> 
+            case getValue v of
+                Nothing -> " "
+                Just x -> show x
+        Just (Given v) -> 
             case getValue v of
                 Nothing -> " "
                 Just x -> show x
@@ -106,8 +109,8 @@ getCellValue p (r, c) =
             -- access the entry
             case e of 
                 Nothing -> Nothing
-                Just g v -> getValue v
-                
+                Just (Guess v) -> getValue v
+                Just (Given v) -> getValue v
 
 -- A sudoku puzzle is comprised of 9 rows and columns
 data LineIndex where
@@ -246,8 +249,11 @@ eraseCell p (i, j) =
                 Nothing -> 
                     -- the cell is already blank, just return the input puzzle
                     p
-                Just g v -> 
+                Just (Guess v) -> 
                     -- update the puzzle (don't care was v was)
+                    updatePuzzle p 0 (i, j) g
+                Just (Given v) -> 
+                    -- same
                     updatePuzzle p 0 (i, j) g
                     
 
@@ -414,7 +420,15 @@ valueInBox p x (r, c) ((i, j) : ijs) =
                 Nothing -> 
                     -- this cell is empty so the value doesn't match it. Check the rest of the box.
                     valueInBox p x (r, c) ijs 
-                Just g v ->
+                Just (Given v) -> 
+                    if x == getValue v then
+                        -- the value matches the value of this cell in the box, return true
+                        True
+                    else
+                        -- the value doesn't match the value of this cell in the box, check the rest of the box
+                        valueInBox p x (r, c) ijs 
+
+                Just (Guess v) -> 
                     if x == getValue v then
                         -- the value matches the value of this cell in the box, return true
                         True
