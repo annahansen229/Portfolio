@@ -49,6 +49,7 @@ data Entry where
 -- A Cell in a sudoku puzzle contains an Entry (which could be blank) and a Notepad.
 type Cell = (Maybe Entry, Notepad)
 
+
 -- A blank cell has no entry and a blank notepad
 blankCell :: Cell
 blankCell = (Nothing, blankNotepad)
@@ -99,8 +100,6 @@ cellToString (e, n) =
                 Nothing -> " "
                 Just x -> show x
 
-instance Show Cell where show = cellToString
-
 -- This function gets the value out of a cell so it can be compared with other values
 -- It takes in:
     -- a Puzzle, and
@@ -147,7 +146,7 @@ allCoordinates = liftA2 (,) allLineIndex allLineIndex
 -- The string representation of the Cell's value is concatenated with the pipe character in order to print the Puzzle in grid format
 printCell :: Puzzle -> (LineIndex, LineIndex) -> String
 printCell p (r, c) = 
-    show (p (r, c)) ++ " | "
+    cellToString (p (r, c)) ++ " | "
 
 -- Here is how to print a row in a Puzzle.
 -- This is a helper function for printing a Puzzle
