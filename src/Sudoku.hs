@@ -84,11 +84,8 @@ cellToString :: Cell -> String
 cellToString (e, n) = 
     case e of 
         Nothing -> " "
-        (Just (Given v)) ->
-            case getValue v of
-                Nothing -> " "
-                Just x -> show x
-        (Just (Guess v)) -> 
+        Just g v -> 
+            -- don't care what g is 
             case getValue v of
                 Nothing -> " "
                 Just x -> show x
@@ -109,8 +106,7 @@ getCellValue p (r, c) =
             -- access the entry
             case e of 
                 Nothing -> Nothing
-                Just (Given v) -> getValue v
-                Just (Guess v) -> getValue v
+                Just g v -> getValue v
                 
 
 -- A sudoku puzzle is comprised of 9 rows and columns
@@ -250,12 +246,10 @@ eraseCell p (i, j) =
                 Nothing -> 
                     -- the cell is already blank, just return the input puzzle
                     p
-                Just v -> 
-                    case v of
-                        -- otherwise update & return the puzzle
-                        -- (don't care what the existing value is)
-                        Guess y -> updatePuzzle p 0 (i, j) Guess
-                        Given y -> updatePuzzle p 0 (i, j) Given
+                Just g v -> 
+                    -- update the puzzle (don't care was v was)
+                    updatePuzzle p 0 (i, j) g
+                    
 
 -- This function sets a Cell in a Puzzle to a value
 -- It takes in:
