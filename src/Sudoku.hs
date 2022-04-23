@@ -420,21 +420,14 @@ valueInBox p x (r, c) ((i, j) : ijs) =
                 Nothing -> 
                     -- this cell is empty so the value doesn't match it. Check the rest of the box.
                     valueInBox p x (r, c) ijs 
-                Just (Given v) -> 
-                    if x == getValue v then
+                Just v ->
+                    if x == v then
                         -- the value matches the value of this cell in the box, return true
                         True
                     else
                         -- the value doesn't match the value of this cell in the box, check the rest of the box
                         valueInBox p x (r, c) ijs 
 
-                Just (Guess v) -> 
-                    if x == getValue v then
-                        -- the value matches the value of this cell in the box, return true
-                        True
-                    else
-                        -- the value doesn't match the value of this cell in the box, check the rest of the box
-                        valueInBox p x (r, c) ijs 
         False -> 
             -- it is neither the right row or column, or it is the same cell, skip it and check the rest of the list
             valueInBox p x (r, c) ijs 
