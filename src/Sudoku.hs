@@ -3,6 +3,83 @@ module Sudoku where
 import Control.Applicative
 import Data.Bits
 
+-- trying to define a new sudoku value
+type Value = (Bool, Bool, Bool, Bool, Bool, Bool, Bool, Bool, Bool)
+
+-- Depending on which place is true, return the corresponding numeric value.
+getValue :: Maybe Value -> Maybe Int 
+getValue (Just (True, False, False, False, False, False, False, False, False)) = Just 1
+getValue (Just (False, True, False, False, False, False, False, False, False)) = Just 2
+getValue (Just (False, False, True, False, False, False, False, False, False)) = Just 3
+getValue (Just (False, False, False, True, False, False, False, False, False)) = Just 4
+getValue (Just (False, False, False, False, True, False, False, False, False)) = Just 5
+getValue (Just (False, False, False, False, False, True, False, False, False)) = Just 6
+getValue (Just (False, False, False, False, False, False, True, False, False)) = Just 7
+getValue (Just (False, False, False, False, False, False, False, True, False)) = Just 8
+getValue (Just (False, False, False, False, False, False, False, False, True)) = Just 9
+getValue _ = Nothing
+
+-- Depending on which value is being recorded, set that place to True and the rest to False.
+setValue :: Int -> Maybe Value
+setValue 1 = Just (True, False, False, False, False, False, False, False, False)  
+setValue 2 = Just (False, True, False, False, False, False, False, False, False)  
+setValue 3 = Just (False, False, True, False, False, False, False, False, False)    
+setValue 4 = Just (False, False, False, True, False, False, False, False, False)    
+setValue 5 = Just (False, False, False, False, True, False, False, False, False)    
+setValue 6 = Just (False, False, False, False, False, True, False, False, False)    
+setValue 7 = Just (False, False, False, False, False, False, True, False, False)    
+setValue 8 = Just (False, False, False, False, False, False, False, True, False)    
+setValue 9 = Just (False, False, False, False, False, False, False, False, True)    
+setValue _ = Nothing
+
+-- A Notepad is a special form of a sudoku value
+type Notepad = Value
+
+-- An Entry in a sudoku puzzle is either given by the puzzle, or guessed by the user.
+data Entry where 
+    EGiven :: Value -> Entry
+    EGuess :: Value -> Entry
+
+-- A Cell in a sudoku puzzle contains an Entry (which could be blank) and a Notepad.
+type NewCell = (Maybe Entry, Notepad)
+
+-- A blank cell has no entry and a blank notepad
+blankCell :: NewCell
+blankCell = (Nothing, blankNotepad)
+
+-- a blank Notepad is all false
+blankNotepad :: Notepad
+blankNotepad = (False, False, False, False, False, False, False, False, False)
+
+-- adding to the Notepad sets that place to True and retains the other values as they were
+addNotepad :: Int -> Notepad -> Notepad
+addNotepad 1 (n1, n2, n3, n4, n5, n6, n7, n8, n9) = (True, n2, n3, n4, n5, n6, n7, n8, n9)
+addNotepad 2 (n1, n2, n3, n4, n5, n6, n7, n8, n9) = (n1, True, n3, n4, n5, n6, n7, n8, n9)
+addNotepad 3 (n1, n2, n3, n4, n5, n6, n7, n8, n9) = (n1, n2, True, n4, n5, n6, n7, n8, n9)
+addNotepad 4 (n1, n2, n3, n4, n5, n6, n7, n8, n9) = (n1, n2, n3, True, n5, n6, n7, n8, n9)
+addNotepad 5 (n1, n2, n3, n4, n5, n6, n7, n8, n9) = (n1, n2, n3, n4, True, n6, n7, n8, n9)
+addNotepad 6 (n1, n2, n3, n4, n5, n6, n7, n8, n9) = (n1, n2, n3, n4, n5, True, n7, n8, n9)
+addNotepad 7 (n1, n2, n3, n4, n5, n6, n7, n8, n9) = (n1, n2, n3, n4, n5, n6, True, n8, n9)
+addNotepad 8 (n1, n2, n3, n4, n5, n6, n7, n8, n9) = (n1, n2, n3, n4, n5, n6, n7, True, n9)
+addNotepad 9 (n1, n2, n3, n4, n5, n6, n7, n8, n9) = (n1, n2, n3, n4, n5, n6, n7, n8, True)
+-- Any other value returns the notepad unchanged
+addNotepad _ (n1, n2, n3, n4, n5, n6, n7, n8, n9) = (n1, n2, n3, n4, n5, n6, n7, n8, n9)
+
+eraseNotepad :: Int -> Notepad -> Notepad
+eraseNotepad 1 (n1, n2, n3, n4, n5, n6, n7, n8, n9) = (False, n2, n3, n4, n5, n6, n7, n8, n9)
+eraseNotepad 2 (n1, n2, n3, n4, n5, n6, n7, n8, n9) = (n1, False, n3, n4, n5, n6, n7, n8, n9)
+eraseNotepad 3 (n1, n2, n3, n4, n5, n6, n7, n8, n9) = (n1, n2, False, n4, n5, n6, n7, n8, n9)
+eraseNotepad 4 (n1, n2, n3, n4, n5, n6, n7, n8, n9) = (n1, n2, n3, False, n5, n6, n7, n8, n9)
+eraseNotepad 5 (n1, n2, n3, n4, n5, n6, n7, n8, n9) = (n1, n2, n3, n4, False, n6, n7, n8, n9)
+eraseNotepad 6 (n1, n2, n3, n4, n5, n6, n7, n8, n9) = (n1, n2, n3, n4, n5, False, n7, n8, n9)
+eraseNotepad 7 (n1, n2, n3, n4, n5, n6, n7, n8, n9) = (n1, n2, n3, n4, n5, n6, False, n8, n9)
+eraseNotepad 8 (n1, n2, n3, n4, n5, n6, n7, n8, n9) = (n1, n2, n3, n4, n5, n6, n7, False, n9)
+eraseNotepad 9 (n1, n2, n3, n4, n5, n6, n7, n8, n9) = (n1, n2, n3, n4, n5, n6, n7, n8, False)
+-- Any other value returns the notepad unchanged
+eraseNotepad _ (n1, n2, n3, n4, n5, n6, n7, n8, n9) = (n1, n2, n3, n4, n5, n6, n7, n8, n9)
+
+
+
 -- A cell in the Sudoku puzzle is either blank, or contains a value. If it contains a value, the value is either given to start with or has been guessed by the player.
 data Cell where
     Given :: Int -> Cell
