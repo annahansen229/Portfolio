@@ -79,10 +79,19 @@ eraseNotepad 9 (n1, n2, n3, n4, n5, n6, n7, n8, n9) = (n1, n2, n3, n4, n5, n6, n
 eraseNotepad _ (n1, n2, n3, n4, n5, n6, n7, n8, n9) = (n1, n2, n3, n4, n5, n6, n7, n8, n9)
 
 -- Here is how to print a Cell value
+-- For now I am not printing the notepad
 cellToString :: Cell -> String
-cellToString (Blank) = " "
-cellToString (Given x) = show x
-cellToString (Guess x) = show x
+cellToString (e, n) = 
+    case e of 
+        Nothing -> " "
+        (Just (Given v)) ->
+            case getValue v of
+                Nothing -> " "
+                Just x -> show x
+        (Just (Guess v)) -> 
+            case getValue v of
+                Nothing -> " "
+                Just x -> show x
 
 instance Show Cell where show = cellToString
 
