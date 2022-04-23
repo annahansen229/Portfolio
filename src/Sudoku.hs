@@ -249,12 +249,10 @@ eraseCell p (i, j) =
                 Nothing -> 
                     -- the cell is already blank, just return the input puzzle
                     p
-                Just (Guess v) -> 
-                    -- update the puzzle (don't care was v was)
-                    updatePuzzle p 0 (i, j) g
-                Just (Given v) -> 
-                    -- same
-                    updatePuzzle p 0 (i, j) g
+                _ -> 
+                    -- Something was there, but it doesn't matter what because it's being deleted anyway.
+                    -- update the puzzle (0 and Guess are thrown away by updatePuzzle - they don't matter)
+                    updatePuzzle p 0 (i, j) Guess
                     
 
 -- This function sets a Cell in a Puzzle to a value
