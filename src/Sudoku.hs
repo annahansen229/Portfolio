@@ -220,20 +220,17 @@ setGiven p x (i, j) =
 setGuess :: Puzzle -> Int -> (LineIndex, LineIndex) -> Puzzle
 setGuess p x (i, j) = 
     case p (i, j) of
-        -- A Given value cannot be over-written with a Guess value
-        -- return the input puzzle
-        Given x -> p
-        _ -> 
-            -- Both a Guess value and a Blank value can be over-written with a Guess value
-            -- test if the value is allowed
-            if (allowedValue x) then
-                -- input x is in the allowed range
-                -- update & return the puzzle
-                updatePuzzle p x (i, j) Guess
-            else
-                -- input x is not valid in Cell (i, j)
-                -- return the input puzzle
-                p
+        -- (maybe Entry, notepad)
+        (e, n) -> 
+            case e of 
+                Just (Given v) -> 
+                    -- A Given value cannot be over-written with a Guess value
+                    -- return the input puzzle
+                    p
+                _ -> 
+                    -- Both a Nothing value and a Guess value can be over-written with a Guess value
+                    -- update & return the puzzle
+                    updatePuzzle p x (i, j) Guess
 
 -- This function removes a value from the puzzle
 -- It takes in:
