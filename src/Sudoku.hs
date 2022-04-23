@@ -244,8 +244,11 @@ setGuess p x (i, j) =
 eraseCell :: Puzzle -> (LineIndex, LineIndex) -> Puzzle
 eraseCell p (i, j) =
     case p (i, j) of
-        -- (maybe entry, notepad)
-        (e, n) -> (Nothing, n)
+        -- if the Cell is already blank then just return the input puzzle
+        Blank -> p
+        -- otherwise update & return the puzzle
+        Guess y -> updatePuzzle p 0 (i, j) Guess
+        Given y -> updatePuzzle p 0 (i, j) Given
 
 -- This function sets a Cell in a Puzzle to a value
 -- It takes in:
@@ -260,19 +263,33 @@ updatePuzzle p x (i, j) g =
     case p (i, j) of
         -- (maybe entry, notepad)
         (e, n) -> 
-            -- This lambda function takes in a pair of LineIndex and returns a Cell. In other words, it is a Puzzle.
-            (\(r, c) ->
-                if (i, j) == (r, c) then
-                    let v = setValue x in
-                        case v of
-                            Nothing -> 
-                                -- if setValue returned Nothing, the input value was invalid. Return the cell as it was.
-                                (e, n)
-                            Just v' -> 
-                                (Just (g v'), n)
-                else
-                    p (r, c)
-            )
+            case x of 
+                0 -> 
+                    -- if updatePuzzle is called with x = 0 we are deleting an entry to the puzzle. 
+                    -- The input constructor and the value 0 are essentially discarded in this case.
+                    -- This lambda function takes in a pair of LineIndex and returns a Cell. In other words, it is a Puzzle.
+                    (\(r, c) ->
+                        if (i, j) == (r, c) then
+                            -- if (r, c) is the coordinates we want to update, return a cell with a blank entry and the existing cell's notepad
+                            (Nothing, n)
+                        else
+                            -- (r, c) is not the coordinates we want to update, return the Cell at (r, c) in the input puzzle
+                            p (r, c)
+                    )
+                _ ->
+                    -- if updatePuzzle is called with x = any other value then we do the same as above but we do use the input constructor and value.
+                    (\(r, c) ->
+                        if (i, j) == (r, c) then
+                            let v = setValue x in
+                                case v of
+                                    Nothing -> 
+                                        -- if setValue returned Nothing, the input value was invalid. Return the cell as it was.
+                                        (e, n)
+                                    Just v' -> 
+                                        (Just (g v'), n)
+                        else
+                            p (r, c)
+                    )
 
 -- This function checks if a value is valid in the row and column where it will exist
 -- It takes in:
