@@ -101,14 +101,17 @@ instance Show Cell where show = cellToString
     -- a set of coordinates
     -- (which together return a Cell in the puzzle)
 -- It returns the value carried in the Cell
-getCellValue :: Puzzle -> (LineIndex, LineIndex) -> Int
-getCellValue p (r, c) =
+getCellValue :: Puzzle -> (LineIndex, LineIndex) -> Maybe Int
+getCellValue p (r, c) = 
+    -- access the cell
     case p (r, c) of
-        -- a blank is a special case, since I decided not to use Maybe Cells, I have to return some Int from a Blank. Since I disallow 0 from being used to set up a puzzle or attempt to solve a puzzle in the allowedValue function, and this function is used to compare Cell values with input values, I decided that 0 would be a safe value to return for a Blank Cell.
-        (Blank) -> 0
-        -- for both a Given value and a Guess value, I return the value
-        (Given x) -> x
-        (Guess x) -> x
+        (e, n) -> 
+            -- access the entry
+            case e of 
+                Nothing -> Nothing
+                Just (Given v) -> getValue v
+                Just (Guess v) -> getValue v
+                
 
 -- A sudoku puzzle is comprised of 9 rows and columns
 data LineIndex where
