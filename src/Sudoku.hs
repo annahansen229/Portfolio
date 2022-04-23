@@ -292,13 +292,21 @@ validInRowAndColumn p x (r, c) ((i, j) : list) =
         True -> 
             -- we are in the right row or the right column
             -- we need to test if the value at (i, j) is equal to x
-            case x == getCellValue p (i, j) of
-                -- the value at (i, j) is equal to x, x is not a valid entry
-                True -> False
-                -- the value at (i, j) is not equal to x, check the rest of the list
-                False -> validInRowAndColumn p x (r, c) list
-        -- it is neither the right row or column, or it is the same cell, skip it and check the rest of the list
-        False -> validInRowAndColumn p x (r, c) list
+            case getCellValue p (i, j) of
+                Nothing ->
+                    -- there is no value at (i, j), x is a valid entry
+                    True 
+                Just y ->
+                    case x == y of
+                        True -> 
+                            -- the value at (i, j) is equal to x, x is not a valid entry
+                            False 
+                        False -> 
+                            -- the value at (i, j) is not equal to x, check the rest of the list
+                            validInRowAndColumn p x (r, c) list
+        False -> 
+            -- it is neither the right row or column, or it is the same cell, skip it and check the rest of the list
+            validInRowAndColumn p x (r, c) list
 
 -- In a sudoku puzzle values belong not only to their row and column but also to a 3x3 box which is a subset of the whole puzzle.
 -- There are nine such boxes in a sudoku puzzle.
