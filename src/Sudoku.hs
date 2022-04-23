@@ -244,11 +244,18 @@ setGuess p x (i, j) =
 eraseCell :: Puzzle -> (LineIndex, LineIndex) -> Puzzle
 eraseCell p (i, j) =
     case p (i, j) of
-        -- if the Cell is already blank then just return the input puzzle
-        Blank -> p
-        -- otherwise update & return the puzzle
-        Guess y -> updatePuzzle p 0 (i, j) Guess
-        Given y -> updatePuzzle p 0 (i, j) Given
+        -- (maybe entry, notepad)
+        (e, n) -> 
+            case e of
+                Nothing -> 
+                    -- the cell is already blank, just return the input puzzle
+                    p
+                Just v -> 
+                    case v of
+                        -- otherwise update & return the puzzle
+                        -- (don't care what the existing value is)
+                        Guess y -> updatePuzzle p 0 (i, j) Guess
+                        Given y -> updatePuzzle p 0 (i, j) Given
 
 -- This function sets a Cell in a Puzzle to a value
 -- It takes in:
