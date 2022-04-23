@@ -478,11 +478,14 @@ validEntry p x (r, c) =
 -- Note, this function is not used to check if it's valid to *set* a cell to a value, it checks if the value already in a cell is valid.
 checkCell :: Puzzle -> (LineIndex, LineIndex) -> Bool 
 checkCell p (r, c) = 
-    case p (r, c) of
-        -- don't need to check blanks
-        Blank -> True 
-        -- check Guess and Given
-        _ -> validEntry p (getCellValue p (r, c)) (r, c)
+    let v = getCellValue p (r, c) in
+        case v of 
+            Nothing -> 
+                -- don't need to check blanks
+                True 
+            Just v' -> 
+                -- check Guess and Given
+                validEntry p v' (r, c)
 
 -- This function checks if the values existing at a list of Puzzle coordinates in a Puzzle are valid by mapping the checkCell function over a list of coordinates
 -- It takes in: 
