@@ -37,14 +37,14 @@ type Notepad = Value
 
 -- An Entry in a sudoku puzzle is either given by the puzzle, or guessed by the user.
 data Entry where 
-    EGiven :: Value -> Entry
-    EGuess :: Value -> Entry
+    Given :: Value -> Entry
+    Guess :: Value -> Entry
 
 -- A Cell in a sudoku puzzle contains an Entry (which could be blank) and a Notepad.
-type NewCell = (Maybe Entry, Notepad)
+type Cell = (Maybe Entry, Notepad)
 
 -- A blank cell has no entry and a blank notepad
-blankCell :: NewCell
+blankCell :: Cell
 blankCell = (Nothing, blankNotepad)
 
 -- a blank Notepad is all false
@@ -77,14 +77,6 @@ eraseNotepad 8 (n1, n2, n3, n4, n5, n6, n7, n8, n9) = (n1, n2, n3, n4, n5, n6, n
 eraseNotepad 9 (n1, n2, n3, n4, n5, n6, n7, n8, n9) = (n1, n2, n3, n4, n5, n6, n7, n8, False)
 -- Any other value returns the notepad unchanged
 eraseNotepad _ (n1, n2, n3, n4, n5, n6, n7, n8, n9) = (n1, n2, n3, n4, n5, n6, n7, n8, n9)
-
-
-
--- A cell in the Sudoku puzzle is either blank, or contains a value. If it contains a value, the value is either given to start with or has been guessed by the player.
-data Cell where
-    Given :: Int -> Cell
-    Guess :: Int -> Cell
-    Blank :: Cell
 
 -- Here is how to print a Cell value
 cellToString :: Cell -> String
