@@ -7,16 +7,16 @@ import Data.Bits
 type Value = (Bool, Bool, Bool, Bool, Bool, Bool, Bool, Bool, Bool)
 
 -- Depending on which place is true, return the corresponding numeric value.
-getValue :: Maybe Value -> Maybe Int 
-getValue (Just (True, False, False, False, False, False, False, False, False)) = Just 1
-getValue (Just (False, True, False, False, False, False, False, False, False)) = Just 2
-getValue (Just (False, False, True, False, False, False, False, False, False)) = Just 3
-getValue (Just (False, False, False, True, False, False, False, False, False)) = Just 4
-getValue (Just (False, False, False, False, True, False, False, False, False)) = Just 5
-getValue (Just (False, False, False, False, False, True, False, False, False)) = Just 6
-getValue (Just (False, False, False, False, False, False, True, False, False)) = Just 7
-getValue (Just (False, False, False, False, False, False, False, True, False)) = Just 8
-getValue (Just (False, False, False, False, False, False, False, False, True)) = Just 9
+getValue :: Value -> Maybe Int 
+getValue (True, False, False, False, False, False, False, False, False) = Just 1
+getValue (False, True, False, False, False, False, False, False, False) = Just 2
+getValue (False, False, True, False, False, False, False, False, False) = Just 3
+getValue (False, False, False, True, False, False, False, False, False) = Just 4
+getValue (False, False, False, False, True, False, False, False, False) = Just 5
+getValue (False, False, False, False, False, True, False, False, False) = Just 6
+getValue (False, False, False, False, False, False, True, False, False) = Just 7
+getValue (False, False, False, False, False, False, False, True, False) = Just 8
+getValue (False, False, False, False, False, False, False, False, True) = Just 9
 getValue _ = Nothing
 
 -- Depending on which value is being recorded, set that place to True and the rest to False.
