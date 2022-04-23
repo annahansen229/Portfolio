@@ -504,16 +504,18 @@ findInvalidCoords p [] = ""
 findInvalidCoords p ((r, c) : list) = 
     -- test what type of Value the cell has
     case p (r, c) of
-        (Guess y) -> 
-            -- in a Guess cell, check if the value is valid
-            case checkCell p (r, c) of
-                -- the value at (r, c) is valid, check the rest of the list
-                True -> findInvalidCoords p list
-                -- the value at (r, c) isn't valid, return the string representation of the coordinates and check the rest of the list
-                False -> "(" ++ show r ++ ", " ++ show c ++ ") " ++ findInvalidCoords p list
-        _ -> 
-            -- don't need to check Blank or Given cells
-            findInvalidCoords p list
+        (e, n) ->
+            case e of
+                Just (Guess y) -> 
+                    -- in a Guess cell, check if the value is valid
+                    case checkCell p (r, c) of
+                        -- the value at (r, c) is valid, check the rest of the list
+                        True -> findInvalidCoords p list
+                        -- the value at (r, c) isn't valid, return the string representation of the coordinates and check the rest of the list
+                        False -> "(" ++ show r ++ ", " ++ show c ++ ") " ++ findInvalidCoords p list
+                _ -> 
+                    -- don't need to check Blank or Given cells
+                    findInvalidCoords p list
 
 
 
