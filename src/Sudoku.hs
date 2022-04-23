@@ -182,7 +182,7 @@ instance Show Puzzle where show = printPuzzle
 
 -- Here is a blankPuzzle, this will be the starting point for each new Puzzle
 blankPuzzle :: Puzzle
-blankPuzzle = (\(r, c) -> Blank)
+blankPuzzle = (\(r, c) -> blankCell)
 
 -- This function checks whether a value is allowed to be used in a Puzzle
 -- The values in a sudoku puzzle must be in the range [1-9]
