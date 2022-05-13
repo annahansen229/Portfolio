@@ -3,102 +3,19 @@ module Sudoku where
 import Control.Applicative
 import Data.Bits
 
--- trying to define a new sudoku value
-type Value = (Bool, Bool, Bool, Bool, Bool, Bool, Bool, Bool, Bool)
-
--- Depending on which place is true, return the corresponding numeric value.
-getValue :: Value -> Maybe Int 
-getValue (True, False, False, False, False, False, False, False, False) = Just 1
-getValue (False, True, False, False, False, False, False, False, False) = Just 2
-getValue (False, False, True, False, False, False, False, False, False) = Just 3
-getValue (False, False, False, True, False, False, False, False, False) = Just 4
-getValue (False, False, False, False, True, False, False, False, False) = Just 5
-getValue (False, False, False, False, False, True, False, False, False) = Just 6
-getValue (False, False, False, False, False, False, True, False, False) = Just 7
-getValue (False, False, False, False, False, False, False, True, False) = Just 8
-getValue (False, False, False, False, False, False, False, False, True) = Just 9
-getValue _ = Nothing
-
--- Depending on which value is being recorded, set that place to True and the rest to False.
-setValue :: Int -> Value
-setValue 1 = (True, False, False, False, False, False, False, False, False)  
-setValue 2 = (False, True, False, False, False, False, False, False, False)  
-setValue 3 = (False, False, True, False, False, False, False, False, False)    
-setValue 4 = (False, False, False, True, False, False, False, False, False)    
-setValue 5 = (False, False, False, False, True, False, False, False, False)    
-setValue 6 = (False, False, False, False, False, True, False, False, False)    
-setValue 7 = (False, False, False, False, False, False, True, False, False)    
-setValue 8 = (False, False, False, False, False, False, False, True, False)    
-setValue 9 = (False, False, False, False, False, False, False, False, True)    
-setValue _ = (False, False, False, False, False, False, False, False, False)    
-
--- I did this to prevent another layer of Maybe
--- I only need it in updatePuzzle
--- I do not want to carry around a Maybe Value inside a Maybe Entry
-badValue :: Value
-badValue = (False, False, False, False, False, False, False, False, False)
-
--- A Notepad is a special form of a sudoku value
-type Notepad = Value
-
--- An Entry in a sudoku puzzle is either given by the puzzle, or guessed by the user.
-data Entry where 
-    Given :: Value -> Entry
-    Guess :: Value -> Entry
-
--- A Cell in a sudoku puzzle contains an Entry (which could be blank) and a Notepad.
-type Cell = (Maybe Entry, Notepad)
-
-
--- A blank cell has no entry and a blank notepad
-blankCell :: Cell
-blankCell = (Nothing, blankNotepad)
-
--- a blank Notepad is all false
-blankNotepad :: Notepad
-blankNotepad = (False, False, False, False, False, False, False, False, False)
-
--- adding to the Notepad sets that place to True and retains the other values as they were
-addNotepad :: Int -> Notepad -> Notepad
-addNotepad 1 (n1, n2, n3, n4, n5, n6, n7, n8, n9) = (True, n2, n3, n4, n5, n6, n7, n8, n9)
-addNotepad 2 (n1, n2, n3, n4, n5, n6, n7, n8, n9) = (n1, True, n3, n4, n5, n6, n7, n8, n9)
-addNotepad 3 (n1, n2, n3, n4, n5, n6, n7, n8, n9) = (n1, n2, True, n4, n5, n6, n7, n8, n9)
-addNotepad 4 (n1, n2, n3, n4, n5, n6, n7, n8, n9) = (n1, n2, n3, True, n5, n6, n7, n8, n9)
-addNotepad 5 (n1, n2, n3, n4, n5, n6, n7, n8, n9) = (n1, n2, n3, n4, True, n6, n7, n8, n9)
-addNotepad 6 (n1, n2, n3, n4, n5, n6, n7, n8, n9) = (n1, n2, n3, n4, n5, True, n7, n8, n9)
-addNotepad 7 (n1, n2, n3, n4, n5, n6, n7, n8, n9) = (n1, n2, n3, n4, n5, n6, True, n8, n9)
-addNotepad 8 (n1, n2, n3, n4, n5, n6, n7, n8, n9) = (n1, n2, n3, n4, n5, n6, n7, True, n9)
-addNotepad 9 (n1, n2, n3, n4, n5, n6, n7, n8, n9) = (n1, n2, n3, n4, n5, n6, n7, n8, True)
--- Any other value returns the notepad unchanged
-addNotepad _ (n1, n2, n3, n4, n5, n6, n7, n8, n9) = (n1, n2, n3, n4, n5, n6, n7, n8, n9)
-
-eraseNotepad :: Int -> Notepad -> Notepad
-eraseNotepad 1 (n1, n2, n3, n4, n5, n6, n7, n8, n9) = (False, n2, n3, n4, n5, n6, n7, n8, n9)
-eraseNotepad 2 (n1, n2, n3, n4, n5, n6, n7, n8, n9) = (n1, False, n3, n4, n5, n6, n7, n8, n9)
-eraseNotepad 3 (n1, n2, n3, n4, n5, n6, n7, n8, n9) = (n1, n2, False, n4, n5, n6, n7, n8, n9)
-eraseNotepad 4 (n1, n2, n3, n4, n5, n6, n7, n8, n9) = (n1, n2, n3, False, n5, n6, n7, n8, n9)
-eraseNotepad 5 (n1, n2, n3, n4, n5, n6, n7, n8, n9) = (n1, n2, n3, n4, False, n6, n7, n8, n9)
-eraseNotepad 6 (n1, n2, n3, n4, n5, n6, n7, n8, n9) = (n1, n2, n3, n4, n5, False, n7, n8, n9)
-eraseNotepad 7 (n1, n2, n3, n4, n5, n6, n7, n8, n9) = (n1, n2, n3, n4, n5, n6, False, n8, n9)
-eraseNotepad 8 (n1, n2, n3, n4, n5, n6, n7, n8, n9) = (n1, n2, n3, n4, n5, n6, n7, False, n9)
-eraseNotepad 9 (n1, n2, n3, n4, n5, n6, n7, n8, n9) = (n1, n2, n3, n4, n5, n6, n7, n8, False)
--- Any other value returns the notepad unchanged
-eraseNotepad _ (n1, n2, n3, n4, n5, n6, n7, n8, n9) = (n1, n2, n3, n4, n5, n6, n7, n8, n9)
+-- A cell in the Sudoku puzzle is either blank, or contains a value. If it contains a value, the value is either given to start with or has been guessed by the player.
+data Cell where
+    Given :: Int -> Cell
+    Guess :: Int -> Cell
+    Blank :: Cell
 
 -- Here is how to print a Cell value
--- For now I am not printing the notepad
 cellToString :: Cell -> String
-cellToString (e, n) = 
-    case e of 
-        Nothing -> " "
-        Just (Guess v) -> 
-            case getValue v of
-                Nothing -> " "
-                Just x -> show x
-        Just (Given v) -> 
-            case getValue v of
-                Nothing -> " "
-                Just x -> show x
+cellToString (Blank) = " "
+cellToString (Given x) = show x
+cellToString (Guess x) = show x
+
+instance Show Cell where show = cellToString
 
 -- This function gets the value out of a cell so it can be compared with other values
 -- It takes in:
@@ -106,16 +23,14 @@ cellToString (e, n) =
     -- a set of coordinates
     -- (which together return a Cell in the puzzle)
 -- It returns the value carried in the Cell
-getCellValue :: Puzzle -> (LineIndex, LineIndex) -> Maybe Int
-getCellValue p (r, c) = 
-    -- access the cell
+getCellValue :: Puzzle -> (LineIndex, LineIndex) -> Int
+getCellValue p (r, c) =
     case p (r, c) of
-        (e, n) -> 
-            -- access the entry
-            case e of 
-                Nothing -> Nothing
-                Just (Guess v) -> getValue v
-                Just (Given v) -> getValue v
+        -- a blank is a special case, since I decided not to use Maybe Cells, I have to return some Int from a Blank. Since I disallow 0 from being used to set up a puzzle or attempt to solve a puzzle in the allowedValue function, and this function is used to compare Cell values with input values, I decided that 0 would be a safe value to return for a Blank Cell.
+        (Blank) -> 0
+        -- for both a Given value and a Guess value, I return the value
+        (Given x) -> x
+        (Guess x) -> x
 
 -- A sudoku puzzle is comprised of 9 rows and columns
 data LineIndex where
@@ -146,7 +61,7 @@ allCoordinates = liftA2 (,) allLineIndex allLineIndex
 -- The string representation of the Cell's value is concatenated with the pipe character in order to print the Puzzle in grid format
 printCell :: Puzzle -> (LineIndex, LineIndex) -> String
 printCell p (r, c) = 
-    cellToString (p (r, c)) ++ " | "
+    show (p (r, c)) ++ " | "
 
 -- Here is how to print a row in a Puzzle.
 -- This is a helper function for printing a Puzzle
@@ -186,7 +101,7 @@ instance Show Puzzle where show = printPuzzle
 
 -- Here is a blankPuzzle, this will be the starting point for each new Puzzle
 blankPuzzle :: Puzzle
-blankPuzzle = (\(r, c) -> blankCell)
+blankPuzzle = (\(r, c) -> Blank)
 
 -- This function checks whether a value is allowed to be used in a Puzzle
 -- The values in a sudoku puzzle must be in the range [1-9]
@@ -225,17 +140,20 @@ setGiven p x (i, j) =
 setGuess :: Puzzle -> Int -> (LineIndex, LineIndex) -> Puzzle
 setGuess p x (i, j) = 
     case p (i, j) of
-        -- (maybe Entry, notepad)
-        (e, n) -> 
-            case e of 
-                Just (Given v) -> 
-                    -- A Given value cannot be over-written with a Guess value
-                    -- return the input puzzle
-                    p
-                _ -> 
-                    -- Both a Nothing value and a Guess value can be over-written with a Guess value
-                    -- update & return the puzzle
-                    updatePuzzle p x (i, j) Guess
+        -- A Given value cannot be over-written with a Guess value
+        -- return the input puzzle
+        Given x -> p
+        _ -> 
+            -- Both a Guess value and a Blank value can be over-written with a Guess value
+            -- test if the value is allowed
+            if (allowedValue x) then
+                -- input x is in the allowed range
+                -- update & return the puzzle
+                updatePuzzle p x (i, j) Guess
+            else
+                -- input x is not valid in Cell (i, j)
+                -- return the input puzzle
+                p
 
 -- This function removes a value from the puzzle
 -- It takes in:
@@ -245,57 +163,42 @@ setGuess p x (i, j) =
 eraseCell :: Puzzle -> (LineIndex, LineIndex) -> Puzzle
 eraseCell p (i, j) =
     case p (i, j) of
-        -- (maybe entry, notepad)
-        (e, n) -> 
-            case e of
-                Nothing -> 
-                    -- the cell is already blank, just return the input puzzle
-                    p
-                _ -> 
-                    -- Something was there, but it doesn't matter what because it's being deleted anyway.
-                    -- update the puzzle (0 and Guess are thrown away by updatePuzzle - they don't matter)
-                    updatePuzzle p 0 (i, j) Guess
-                    
+        -- if the Cell is already blank then just return the input puzzle
+        Blank -> p
+        -- otherwise update & return the puzzle
+        Guess y -> updatePuzzle p 0 (i, j) Guess
+        Given y -> updatePuzzle p 0 (i, j) Given
 
 -- This function sets a Cell in a Puzzle to a value
 -- It takes in:
-    -- The puzzle being updated (Puzzle)
-    -- The value being updated (Int)
-    -- The coordinates of the Cell being updated, (LineIndex, LineIndex) and 
-    -- The type of Cell being set (Value -> Entry)
+    -- The puzzle being updated
+    -- The value being updated
+    -- The coordinates of the Cell being updated, and 
+    -- The type of Cell being set
 -- It returns an updated copy of the puzzle
-updatePuzzle :: Puzzle -> Int -> (LineIndex, LineIndex) -> (Value -> Entry) -> Puzzle
+updatePuzzle :: Puzzle -> Int -> (LineIndex, LineIndex) -> (Int -> Cell) -> Puzzle
 updatePuzzle p x (i, j) g = 
-    -- access the cell
-    case p (i, j) of
-        -- (maybe entry, notepad)
-        (e, n) -> 
-            case x of 
-                0 -> 
-                    -- if updatePuzzle is called with x = 0 we are deleting an entry to the puzzle. 
-                    -- The input constructor and the value 0 are essentially discarded in this case.
-                    -- This lambda function takes in a pair of LineIndex and returns a Cell. In other words, it is a Puzzle.
-                    (\(r, c) ->
-                        if (i, j) == (r, c) then
-                            -- if (r, c) is the coordinates we want to update, return a cell with a blank entry and the existing cell's notepad
-                            (Nothing, n)
-                        else
-                            -- (r, c) is not the coordinates we want to update, return the Cell at (r, c) in the input puzzle
-                            p (r, c)
-                    )
-                _ ->
-                    -- if updatePuzzle is called with x = any other value then we do the same as above but we do use the input constructor and value.
-                    (\(r, c) ->
-                        if (i, j) == (r, c) then
-                            let v = setValue x in
-                                if v == badValue then
-                                    -- The input value was invalid. Return the cell as it was.
-                                    (e, n)
-                                else 
-                                    (Just (g v), n)
-                        else
-                            p (r, c)
-                    )
+    case x of 
+        0 -> 
+            -- if updatePuzzle is called with x = 0 we are deleting an entry to the puzzle. We need to use the Blank constructor.
+            -- The input constructor and the value 0 are essentially discarded in this case.
+            -- This lambda function takes in a pair of LineIndex and returns a Cell. In other words, it is a Puzzle.
+            (\(r, c) ->
+                if (i, j) == (r, c) then
+                    -- if (r, c) is the coordinates we want to update, return the new Cell
+                    Blank
+                else
+                    -- (r, c) is not the coordinates we want to update, return the Cell at (r, c) in the input puzzle
+                    p (r, c)
+            )
+        _ ->
+            -- if updatePuzzle is called with x = any other value then we do the same as above but we do use the input constructor and value.
+            (\(r, c) ->
+                if (i, j) == (r, c) then
+                    g x
+                else
+                    p (r, c)
+            )
 
 -- This function checks if a value is valid in the row and column where it will exist
 -- It takes in:
@@ -315,21 +218,13 @@ validInRowAndColumn p x (r, c) ((i, j) : list) =
         True -> 
             -- we are in the right row or the right column
             -- we need to test if the value at (i, j) is equal to x
-            case getCellValue p (i, j) of
-                Nothing ->
-                    -- there is no value at (i, j), x is a valid entry
-                    True 
-                Just y ->
-                    case x == y of
-                        True -> 
-                            -- the value at (i, j) is equal to x, x is not a valid entry
-                            False 
-                        False -> 
-                            -- the value at (i, j) is not equal to x, check the rest of the list
-                            validInRowAndColumn p x (r, c) list
-        False -> 
-            -- it is neither the right row or column, or it is the same cell, skip it and check the rest of the list
-            validInRowAndColumn p x (r, c) list
+            case x == getCellValue p (i, j) of
+                -- the value at (i, j) is equal to x, x is not a valid entry
+                True -> False
+                -- the value at (i, j) is not equal to x, check the rest of the list
+                False -> validInRowAndColumn p x (r, c) list
+        -- it is neither the right row or column, or it is the same cell, skip it and check the rest of the list
+        False -> validInRowAndColumn p x (r, c) list
 
 -- In a sudoku puzzle values belong not only to their row and column but also to a 3x3 box which is a subset of the whole puzzle.
 -- There are nine such boxes in a sudoku puzzle.
@@ -415,21 +310,14 @@ valueInBox p x (r, c) ((i, j) : ijs) =
     -- but I do not want i == r and j == c (meaning we are at the same cell that we are checking)
     case xor (i == r) (j == c) of
         True -> 
-            case getCellValue p (i, j) of
-                Nothing -> 
-                    -- this cell is empty so the value doesn't match it. Check the rest of the box.
-                    valueInBox p x (r, c) ijs 
-                Just v ->
-                    if x == v then
-                        -- the value matches the value of this cell in the box, return true
-                        True
-                    else
-                        -- the value doesn't match the value of this cell in the box, check the rest of the box
-                        valueInBox p x (r, c) ijs 
-
-        False -> 
-            -- it is neither the right row or column, or it is the same cell, skip it and check the rest of the list
-            valueInBox p x (r, c) ijs 
+            if x == getCellValue p (i, j) then
+                -- the value matches the value of this cell in the box, return true
+                True
+            else
+                -- the value doesn't match the value of this cell in the box, check the rest of the box
+                valueInBox p x (r, c) ijs 
+        -- it is neither the right row or column, or it is the same cell, skip it and check the rest of the list
+        False -> valueInBox p x (r, c) ijs 
 
 -- This function checks if the value the user wants to set the Cell to already exists in the 3x3 box it belongs to
 -- First it finds which box the Cell belongs to using the cellInBox function defined above
@@ -479,14 +367,11 @@ validEntry p x (r, c) =
 -- Note, this function is not used to check if it's valid to *set* a cell to a value, it checks if the value already in a cell is valid.
 checkCell :: Puzzle -> (LineIndex, LineIndex) -> Bool 
 checkCell p (r, c) = 
-    let v = getCellValue p (r, c) in
-        case v of 
-            Nothing -> 
-                -- don't need to check blanks
-                True 
-            Just v' -> 
-                -- check Guess and Given
-                validEntry p v' (r, c)
+    case p (r, c) of
+        -- don't need to check blanks
+        Blank -> True 
+        -- check Guess and Given
+        _ -> validEntry p (getCellValue p (r, c)) (r, c)
 
 -- This function checks if the values existing at a list of Puzzle coordinates in a Puzzle are valid by mapping the checkCell function over a list of coordinates
 -- It takes in: 
@@ -508,101 +393,99 @@ findInvalidCoords p [] = ""
 findInvalidCoords p ((r, c) : list) = 
     -- test what type of Value the cell has
     case p (r, c) of
-        (e, n) ->
-            case e of
-                Just (Guess y) -> 
-                    -- in a Guess cell, check if the value is valid
-                    case checkCell p (r, c) of
-                        -- the value at (r, c) is valid, check the rest of the list
-                        True -> findInvalidCoords p list
-                        -- the value at (r, c) isn't valid, return the string representation of the coordinates and check the rest of the list
-                        False -> "(" ++ show r ++ ", " ++ show c ++ ") " ++ findInvalidCoords p list
-                _ -> 
-                    -- don't need to check Blank or Given cells
-                    findInvalidCoords p list
+        (Guess y) -> 
+            -- in a Guess cell, check if the value is valid
+            case checkCell p (r, c) of
+                -- the value at (r, c) is valid, check the rest of the list
+                True -> findInvalidCoords p list
+                -- the value at (r, c) isn't valid, return the string representation of the coordinates and check the rest of the list
+                False -> "(" ++ show r ++ ", " ++ show c ++ ") " ++ findInvalidCoords p list
+        _ -> 
+            -- don't need to check Blank or Given cells
+            findInvalidCoords p list
 
 
 
 -- Here is a samplePuzzle I can use for testing
 samplePuzzle :: Puzzle 
-samplePuzzle (A, A) = (Just (Given (setValue 4)), blankNotepad)
-samplePuzzle (A, B) = (Just (Given (setValue 9)), blankNotepad)
-samplePuzzle (A, C) = (Nothing, blankNotepad)
-samplePuzzle (A, D) = (Nothing, blankNotepad)
-samplePuzzle (A, E) = (Nothing, blankNotepad)
-samplePuzzle (A, F) = (Nothing, blankNotepad)
-samplePuzzle (A, G) = (Nothing, blankNotepad)
-samplePuzzle (A, H) = (Nothing, blankNotepad)
-samplePuzzle (A, I) = (Nothing, blankNotepad)
-samplePuzzle (B, A) = (Just (Given (setValue 7)), blankNotepad)
-samplePuzzle (B, B) = (Just (Given (setValue 5)), blankNotepad)
-samplePuzzle (B, C) = (Nothing, blankNotepad)
-samplePuzzle (B, D) = (Nothing, blankNotepad)
-samplePuzzle (B, E) = (Nothing, blankNotepad)
-samplePuzzle (B, F) = (Nothing, blankNotepad)
-samplePuzzle (B, G) = (Just (Given (setValue 8)), blankNotepad)
-samplePuzzle (B, H) = (Nothing, blankNotepad)
-samplePuzzle (B, I) = (Just (Given (setValue 2)), blankNotepad)
-samplePuzzle (C, A) = (Nothing, blankNotepad)
-samplePuzzle (C, B) = (Nothing, blankNotepad)
-samplePuzzle (C, C) = (Just (Given (setValue 8)), blankNotepad)
-samplePuzzle (C, D) = (Nothing, blankNotepad)
-samplePuzzle (C, E) = (Nothing, blankNotepad)
-samplePuzzle (C, F) = (Just (Given (setValue 5)), blankNotepad)
-samplePuzzle (C, G) = (Just (Given (setValue 9)), blankNotepad)
-samplePuzzle (C, H) = (Nothing, blankNotepad)
-samplePuzzle (C, I) = (Just (Given (setValue 3)), blankNotepad)
-samplePuzzle (D, A) = (Nothing, blankNotepad)
-samplePuzzle (D, B) = (Nothing, blankNotepad)
-samplePuzzle (D, C) = (Nothing, blankNotepad)
-samplePuzzle (D, D) = (Nothing, blankNotepad)
-samplePuzzle (D, E) = (Just (Given (setValue 7)), blankNotepad)
-samplePuzzle (D, F) = (Nothing, blankNotepad)
-samplePuzzle (D, G) = (Just (Given (setValue 1)), blankNotepad)
-samplePuzzle (D, H) = (Nothing, blankNotepad)
-samplePuzzle (D, I) = (Nothing, blankNotepad)
-samplePuzzle (E, A) = (Nothing, blankNotepad)
-samplePuzzle (E, B) = (Just (Given (setValue 8)), blankNotepad)
-samplePuzzle (E, C) = (Just (Given (setValue 5)), blankNotepad)
-samplePuzzle (E, D) = (Nothing, blankNotepad)
-samplePuzzle (E, E) = (Nothing, blankNotepad)
-samplePuzzle (E, F) = (Just (Given (setValue 9)), blankNotepad)
-samplePuzzle (E, G) = (Nothing, blankNotepad)
-samplePuzzle (E, H) = (Just (Given (setValue 3)), blankNotepad)
-samplePuzzle (E, I) = (Nothing, blankNotepad)
-samplePuzzle (F, A) = (Nothing, blankNotepad)
-samplePuzzle (F, B) = (Just (Given (setValue 7)), blankNotepad)
-samplePuzzle (F, C) = (Nothing, blankNotepad)
-samplePuzzle (F, D) = (Nothing, blankNotepad)
-samplePuzzle (F, E) = (Just (Given (setValue 6)), blankNotepad)
-samplePuzzle (F, F) = (Nothing, blankNotepad)
-samplePuzzle (F, G) = (Just (Given (setValue 2)), blankNotepad)
-samplePuzzle (F, H) = (Just (Given (setValue 8)), blankNotepad)
-samplePuzzle (F, I) = (Just (Given (setValue 9)), blankNotepad)
-samplePuzzle (G, A) = (Nothing, blankNotepad)
-samplePuzzle (G, B) = (Just (Given (setValue 2)), blankNotepad)
-samplePuzzle (G, C) = (Just (Given (setValue 7)), blankNotepad)
-samplePuzzle (G, D) = (Nothing, blankNotepad)
-samplePuzzle (G, E) = (Nothing, blankNotepad)
-samplePuzzle (G, F) = (Nothing, blankNotepad)
-samplePuzzle (G, G) = (Nothing, blankNotepad)
-samplePuzzle (G, H) = (Just (Given (setValue 9)), blankNotepad)
-samplePuzzle (G, I) = (Nothing, blankNotepad)
-samplePuzzle (H, A) = (Just (Given (setValue 6)), blankNotepad)
-samplePuzzle (H, B) = (Just (Given (setValue 4)), blankNotepad)
-samplePuzzle (H, C) = (Nothing, blankNotepad)
-samplePuzzle (H, D) = (Just (Given (setValue 2)), blankNotepad)
-samplePuzzle (H, E) = (Just (Given (setValue 5)), blankNotepad)
-samplePuzzle (H, F) = (Nothing, blankNotepad)
-samplePuzzle (H, G) = (Nothing, blankNotepad)
-samplePuzzle (H, H) = (Nothing, blankNotepad)
-samplePuzzle (H, I) = (Nothing, blankNotepad)
-samplePuzzle (I, A) = (Nothing, blankNotepad)
-samplePuzzle (I, B) = (Nothing, blankNotepad)
-samplePuzzle (I, C) = (Nothing, blankNotepad)
-samplePuzzle (I, D) = (Nothing, blankNotepad)
-samplePuzzle (I, E) = (Just (Given (setValue 8)), blankNotepad)
-samplePuzzle (I, F) = (Nothing, blankNotepad)
-samplePuzzle (I, G) = (Just (Given (setValue 7)), blankNotepad)
-samplePuzzle (I, H) = (Nothing, blankNotepad)
-samplePuzzle (I, I) = (Nothing, blankNotepad)
+samplePuzzle (A, A) = Given 4
+samplePuzzle (A, B) = Given 9
+samplePuzzle (A, C) = Blank
+samplePuzzle (A, D) = Blank
+samplePuzzle (A, E) = Blank
+samplePuzzle (A, F) = Blank
+samplePuzzle (A, G) = Blank
+samplePuzzle (A, H) = Blank
+samplePuzzle (A, I) = Blank
+samplePuzzle (B, A) = Given 7
+samplePuzzle (B, B) = Given 5
+samplePuzzle (B, C) = Blank
+samplePuzzle (B, D) = Blank
+samplePuzzle (B, E) = Blank
+samplePuzzle (B, F) = Blank
+samplePuzzle (B, G) = Given 8
+samplePuzzle (B, H) = Blank
+samplePuzzle (B, I) = Given 2
+samplePuzzle (C, A) = Blank
+samplePuzzle (C, B) = Blank
+samplePuzzle (C, C) = Given 8
+samplePuzzle (C, D) = Blank
+samplePuzzle (C, E) = Blank
+samplePuzzle (C, F) = Given 5
+samplePuzzle (C, G) = Given 9
+samplePuzzle (C, H) = Blank
+samplePuzzle (C, I) = Given 3
+samplePuzzle (D, A) = Blank
+samplePuzzle (D, B) = Blank
+samplePuzzle (D, C) = Blank
+samplePuzzle (D, D) = Blank
+samplePuzzle (D, E) = Given 7
+samplePuzzle (D, F) = Blank
+samplePuzzle (D, G) = Given 1
+samplePuzzle (D, H) = Blank
+samplePuzzle (D, I) = Blank
+samplePuzzle (E, A) = Blank
+samplePuzzle (E, B) = Given 8
+samplePuzzle (E, C) = Given 5
+samplePuzzle (E, D) = Blank
+samplePuzzle (E, E) = Blank
+samplePuzzle (E, F) = Given 9
+samplePuzzle (E, G) = Blank
+samplePuzzle (E, H) = Given 3
+samplePuzzle (E, I) = Blank
+samplePuzzle (F, A) = Blank
+samplePuzzle (F, B) = Given 7
+samplePuzzle (F, C) = Blank
+samplePuzzle (F, D) = Blank
+samplePuzzle (F, E) = Given 6
+samplePuzzle (F, F) = Blank
+samplePuzzle (F, G) = Given 2
+samplePuzzle (F, H) = Given 8
+samplePuzzle (F, I) = Given 9
+samplePuzzle (G, A) = Blank
+samplePuzzle (G, B) = Given 2
+samplePuzzle (G, C) = Given 7
+samplePuzzle (G, D) = Blank
+samplePuzzle (G, E) = Blank
+samplePuzzle (G, F) = Blank
+samplePuzzle (G, G) = Blank
+samplePuzzle (G, H) = Given 9
+samplePuzzle (G, I) = Blank
+samplePuzzle (H, A) = Given 6
+samplePuzzle (H, B) = Given 4
+samplePuzzle (H, C) = Blank
+samplePuzzle (H, D) = Given 2
+samplePuzzle (H, E) = Given 5
+samplePuzzle (H, F) = Blank
+samplePuzzle (H, G) = Blank
+samplePuzzle (H, H) = Blank
+samplePuzzle (H, I) = Blank
+samplePuzzle (I, A) = Blank
+samplePuzzle (I, B) = Blank
+samplePuzzle (I, C) = Blank
+samplePuzzle (I, D) = Blank
+samplePuzzle (I, E) = Given 8
+samplePuzzle (I, F) = Blank
+samplePuzzle (I, G) = Given 7
+samplePuzzle (I, H) = Blank
+samplePuzzle (I, I) = Blank
