@@ -112,6 +112,7 @@ handleEvent st event =
         KUp -> continue $ st {focus = up (focus st)}
         KDown -> continue $ st {focus = down (focus st)}
         KEsc -> halt st
+        KBS -> handleErase st
         KChar x -> handleKey x st ""
         _ -> continue st
     VtyEvent (EvKey key [MShift]) ->
@@ -141,6 +142,12 @@ handleKey x st n =
     else
       -- some key besides 1-9 was pressed, no change to puzzle
       continue $ st
+
+handleErase :: AppState -> EventM Void (Next (AppState))
+handleErase st = 
+  case ((puzzle st) (focus st), setUpMode st) of
+    ((Given _), False) -> continue $ st
+    (_, _) -> continue $ st {puzzle = eraseCell (puzzle st) (focus st)}
 
 -- The attribute map for our application, which Brick uses to apply text styles
 -- to our widgets.
