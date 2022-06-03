@@ -99,6 +99,23 @@ printPuzzle p =
 
 instance Show Puzzle where show = printPuzzle
 
+-- represents a row in the puzzle as a list
+rowToList :: Puzzle -> [LineIndex] -> LineIndex -> [Cell] 
+rowToList p [] r = []
+rowToList p (c:cs) r = p (r, c) : rowToList p cs r
+
+-- represents a puzzle as a list of lists
+puzzleToLists :: Puzzle -> [[Cell]]
+puzzleToLists p = fmap (rowToList p allLineIndex) allLineIndex
+
+-- breaks a list up into sublists of length 9
+-- used to build the boardWidget
+listofLists :: [a] -> [[a]]
+listofLists xs = 
+    case splitAt 9 $ xs of
+        (ys, []) -> [ys]
+        (ys, yys) -> ys : listofLists yys
+
 -- Here is a blankPuzzle, this will be the starting point for each new Puzzle
 blankPuzzle :: Puzzle
 blankPuzzle = (\(r, c) -> Blank)
