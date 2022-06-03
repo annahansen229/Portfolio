@@ -45,13 +45,12 @@ cellWidget selected cell =
     else
       padAll 1 baseWidget
 
-
 -- A Brick UI widget to represent an entire puzzle as a table of cells.
 -- Puts border between each cell.
 boardWidget :: AppState -> Widget Void
 boardWidget st = 
   renderTable $ table $ 
-  (liftA2 . liftA2) 
+  (zipWith . zipWith) 
     cellWidget 
     (listofLists (fmap (\i -> i == focus st) allCoordinates))
     (puzzleToLists (puzzle st))
@@ -83,10 +82,10 @@ indexPlus I = A
 -- When the user presses an arrow key, these up/down/left right functions
 -- compute the next focus location.
 up :: (LineIndex, LineIndex) -> (LineIndex, LineIndex)
-up (r, c) = (indexPlus r, c)
+up (r, c) = (indexMinus r, c)
 
 down :: (LineIndex, LineIndex) -> (LineIndex, LineIndex)
-down (r, c) = (indexMinus r, c)
+down (r, c) = (indexPlus r, c)
 
 right :: (LineIndex, LineIndex) -> (LineIndex, LineIndex)
 right (r, c) = (r, indexPlus c) 
