@@ -112,6 +112,7 @@ handleEvent st event =
         KUp -> continue $ st {focus = up (focus st)}
         KDown -> continue $ st {focus = down (focus st)}
         KEsc -> halt st
+        KEnter -> continue $ st {setUpMode = False}
         KBS -> handleErase st
         KChar x -> handleKey x st ""
         _ -> continue st
@@ -122,7 +123,6 @@ handleEvent st event =
     _ -> continue st
 
 handleKey :: Char -> AppState -> String -> EventM Void (Next (AppState))
-handleKey 'm' st _ = continue $ st {setUpMode = False}
 handleKey x st n = 
   let 
     -- fromEnum returns the ASCII value of the char, have to subtract 49 to get correct Int
@@ -193,7 +193,7 @@ initialAppState =
 
 main :: IO ()
 main = do
-  finalAppState <- defaultMain app testingAppState
+  finalAppState <- defaultMain app initialAppState
   when 
     ((checkPuzzle (puzzle finalAppState)) &&
     (all (/=0) (map (getCellValue (puzzle finalAppState)) allCoordinates))) $
