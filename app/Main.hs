@@ -31,7 +31,9 @@ data AppState where
 cellWidget :: Bool -> Cell -> Widget Void
 cellWidget selected cell = 
   let
+    -- Text.pack :: String -> Text
     cellText = Text.pack $ cellToString cell
+    -- this designates what color the text will be (mapped in GameAttrMap)
     attr = 
       case cell of
         Guess _ -> "Guess"
@@ -191,15 +193,30 @@ initialAppState =
     , setUpMode = True
     }
 
+promptPlayerApp :: IO AppState
+promptPlayerApp = do
+  putStrLn "Do you want to solve a sample puzzle or setup your own puzzle? Say 'sample' or 'setup' (without quotes)"
+  str <- getLine
+  case str of
+    "sample" -> pure testingAppState
+    "setup" -> pure initialAppState
+    _ -> promptPlayerApp
+
+
+
 main :: IO ()
 main = do
-  finalAppState <- defaultMain app initialAppState
+  selection <- promptPlayerApp
+  finalAppState <- defaultMain app selection
   when 
     ((checkPuzzle (puzzle finalAppState)) &&
     (all (/=0) (map (getCellValue (puzzle finalAppState)) allCoordinates))) $
       putStrLn "Congratulations! You solved the Puzzle"
   putStrLn "final puzzle:"
   print (puzzle finalAppState)
+
+
+
 
 
 -- This function converts a char input from the user to a LineIndex
