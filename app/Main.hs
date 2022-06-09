@@ -12,31 +12,35 @@ import Sudoku
 import Data.Char (digitToInt, isDigit)
 import Data.Text qualified as Text
 import Data.Void
+import Debug.Trace
 import GHC.Read (list)
 
 -- These values can change as the user plays the game.
 -- focus stores the currently-selected cell in the puzzle
 -- puzzle stores the Puzzle the user is solving
 -- setUpMode tracks whether the user is setting up or solving the puzzle
+-- errors is a list of indeces with conflicting entries
 data AppState where
   AppState :: 
     { focus :: (LineIndex, LineIndex)
     , puzzle :: Puzzle
     , setUpMode :: Bool
+    , errors :: [(LineIndex, LineIndex)]
     } -> AppState
 
 -- A Brick UI widget to represent a single cell in the puzzle.
 -- Surrounds the cell text with a border if it's selected, or one space
 -- of padding if it's unselected
-cellWidget :: Bool -> Cell -> Widget Void
-cellWidget selected cell = 
+-- cellWidget :: Bool -> Cell -> Bool -> Widget Void
+cellWidget :: Bool -> Cell -> Bool -> Widget Void
+cellWidget selected cell error = 
   let
     -- Text.pack :: String -> Text
     cellText = Text.pack $ cellToString cell
     -- this designates what color the text will be (mapped in GameAttrMap)
     attr = 
       case cell of
-        Guess _ -> "Guess"
+        Guess _ -> if error then "Error" else "Guess"
         Given _ -> "Given"
         _ -> "Blank"
     baseWidget = withAttr (attrName attr) $
@@ -52,10 +56,11 @@ cellWidget selected cell =
 boardWidget :: AppState -> Widget Void
 boardWidget st = 
   renderTable $ table $ 
-  (zipWith . zipWith) 
+  (zipWith3 . zipWith3) 
     cellWidget 
     (listofLists (fmap (\i -> i == focus st) allCoordinates))
     (puzzleToLists (puzzle st))
+    (listofLists (fmap (\i -> elem i (errors st)) allCoordinates))
   
 -- compute decreasing a LineIndex. Wraps back around to the top/other side if you're at the bottom/edge
 indexMinus :: LineIndex -> LineIndex
@@ -116,6 +121,7 @@ handleEvent st event =
         KEsc -> halt st
         KEnter -> continue $ st {setUpMode = False}
         KBS -> handleErase st
+        KChar 'c' -> continue $ st {errors = findInvalidCoords (puzzle st) allCoordinates}
         KChar x -> handleKey x st ""
         _ -> continue st
     VtyEvent (EvKey key [MShift]) ->
@@ -140,7 +146,8 @@ handleKey x st n =
         if setUpMode st then
           continue $ st {puzzle = setGiven (puzzle st) key (focus st)} 
         else
-          continue $ st {puzzle = setGuess (puzzle st) key (focus st)} 
+          -- reset error indicators after a new entry is made
+          continue $ st {puzzle = setGuess (puzzle st) key (focus st), errors = []} 
     else
       -- some key besides 1-9 was pressed, no change to puzzle
       continue $ st
@@ -159,6 +166,7 @@ gameAttrMap =
   (brightWhite `on` black) -- default scheme for names not listed below
   [ (attrName "Guess", fg green)
   , (attrName "Given", fg blue)
+  , (attrName "Error", fg red)
   ]
 
 -- The Brick application definition, which is used to generate our main
@@ -183,6 +191,7 @@ testingAppState =
     { focus = (A, A)
     , puzzle = samplePuzzle
     , setUpMode = False
+    , errors = []
     }
 
 initialAppState :: AppState
@@ -191,6 +200,7 @@ initialAppState =
     { focus = (A, A)
     , puzzle = blankPuzzle
     , setUpMode = True
+    , errors = []
     }
 
 promptPlayerApp :: IO AppState
@@ -198,11 +208,26 @@ promptPlayerApp = do
   putStrLn "Do you want to solve a sample puzzle or setup your own puzzle? Say 'sample' or 'setup' (without quotes)"
   str <- getLine
   case str of
-    "sample" -> pure testingAppState
-    "setup" -> pure initialAppState
+    "sample" -> do
+      putStrLn "To erase an entry, navigate to it's location, then press Backspace."
+      putStrLn "Note: you cannot erase the blue starting values."
+      putStrLn "To check your puzzle for errors, press the 'c' key."
+      putStrLn "Note: error indicators will be cleared after a new entry is made."
+      putStrLn "When you are finished solving your puzzle, press Escape to exit the game."
+      putStrLn "Press Enter now to proceed to solve your puzzle"
+      getLine -- any key works I don't even capture the result
+      pure testingAppState
+    "setup" -> do
+      putStrLn "When you are finished entering your initial values, press Enter to switch to solve mode."
+      putStrLn "To erase an entry, navigate to it's location, then press Backspace."
+      putStrLn "Note: you cannot erase blue values after you switch to solve mode."
+      putStrLn "To check your puzzle for errors in solve mode, press the 'c' key."
+      putStrLn "Note: error indicators will be cleared after a new entry is made."
+      putStrLn "When you are finished solving your puzzle, press Escape to exit the game."
+      putStrLn "Press Enter now to proceed to setup your puzzle"
+      getLine -- any key works I don't even capture the result
+      pure initialAppState
     _ -> promptPlayerApp
-
-
 
 main :: IO ()
 main = do
@@ -214,9 +239,6 @@ main = do
       putStrLn "Congratulations! You solved the Puzzle"
   putStrLn "final puzzle:"
   print (puzzle finalAppState)
-
-
-
 
 
 -- This function converts a char input from the user to a LineIndex
@@ -392,7 +414,7 @@ promptPlayer mode p = do
           putStrLn "All entries so far are valid"
           promptPlayer mode p
         False -> do
-          let coords = findInvalidCoords p allCoordinates
+          let coords = invalidCoordsString $ findInvalidCoords p allCoordinates
           -- This string is kind of ugly when there are more than one error location. I can do this a better way with a helper function.
           putStrLn ("The value(s) at " ++ coords ++ "conflicts with other values in the row, cell, or box it belongs to")
           promptPlayer mode p

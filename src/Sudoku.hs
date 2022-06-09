@@ -323,6 +323,7 @@ valueInBox :: Puzzle -> Int -> (LineIndex, LineIndex) -> [(LineIndex, LineIndex)
 -- base case, the value cannot exist in an empty list
 valueInBox p x (r, c) [] = False
 valueInBox p x (r, c) ((i, j) : ijs) = 
+    -- if (i, j) == (r, c) then
     if (i == r) && (j == c) then
         -- don't check against self
         valueInBox p x (r, c) ijs 
@@ -401,10 +402,11 @@ checkCoords p list = map (checkCell p) list
 checkPuzzle :: Puzzle -> Bool
 checkPuzzle p = all (== True) (checkCoords p allCoordinates)
 
+
 -- This function finds and returns a string representation of a list of the coordinates of any invalid Guess entries encountered in a Puzzle
-findInvalidCoords :: Puzzle -> [(LineIndex, LineIndex)] -> String
+findInvalidCoords :: Puzzle -> [(LineIndex, LineIndex)] -> [(LineIndex, LineIndex)]
 -- base case empty list, return an empty string
-findInvalidCoords p [] = ""
+findInvalidCoords p [] = []
 findInvalidCoords p ((r, c) : list) = 
     -- test what type of Value the cell has
     case p (r, c) of
@@ -414,12 +416,19 @@ findInvalidCoords p ((r, c) : list) =
                 -- the value at (r, c) is valid, check the rest of the list
                 True -> findInvalidCoords p list
                 -- the value at (r, c) isn't valid, return the string representation of the coordinates and check the rest of the list
-                False -> "(" ++ show r ++ ", " ++ show c ++ ") " ++ findInvalidCoords p list
+                False -> (r, c) : findInvalidCoords p list
         _ -> 
             -- don't need to check Blank or Given cells
             findInvalidCoords p list
 
 
+-- This function returns a string representation of a list of the coordinates of any invalid Guess entries encountered in a Puzzle
+invalidCoordsString :: [(LineIndex, LineIndex)] -> String
+-- base case empty list, return an empty string
+-- invalidCoordsString [] = ""
+-- invalidCoordsString ((r, c) : list) = 
+--     "(" ++ show r ++ ", " ++ show c ++ ") " ++ invalidCoordsString list
+invalidCoordsString = concat . fmap (\(r, c) -> "(" ++ show r ++ ", " ++ show c ++ ") ")
 
 -- Here is a samplePuzzle I can use for testing
 samplePuzzle :: Puzzle 
