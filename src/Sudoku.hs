@@ -323,18 +323,16 @@ valueInBox :: Puzzle -> Int -> (LineIndex, LineIndex) -> [(LineIndex, LineIndex)
 -- base case, the value cannot exist in an empty list
 valueInBox p x (r, c) [] = False
 valueInBox p x (r, c) ((i, j) : ijs) = 
-    -- I use xor here because I need i == r (meaning we are in the right row) or j == c (meaning we are in the right column)
-    -- but I do not want i == r and j == c (meaning we are at the same cell that we are checking)
-    case xor (i == r) (j == c) of
-        True -> 
-            if x == getCellValue p (i, j) then
-                -- the value matches the value of this cell in the box, return true
-                True
-            else
-                -- the value doesn't match the value of this cell in the box, check the rest of the box
-                valueInBox p x (r, c) ijs 
-        -- it is neither the right row or column, or it is the same cell, skip it and check the rest of the list
-        False -> valueInBox p x (r, c) ijs 
+    if (i == r) && (j == c) then
+        -- don't check against self
+        valueInBox p x (r, c) ijs 
+    else
+        if x == getCellValue p (i, j) then
+            -- the value matches the value of this cell in the box, return true
+            True
+        else
+            -- the value doesn't match the value of this cell in the box, check the rest of the box
+            valueInBox p x (r, c) ijs
 
 -- This function checks if the value the user wants to set the Cell to already exists in the 3x3 box it belongs to
 -- First it finds which box the Cell belongs to using the cellInBox function defined above
