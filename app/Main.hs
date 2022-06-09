@@ -10,6 +10,8 @@ import Graphics.Vty.Attributes.Color
 import Graphics.Vty.Input.Events (Event(..), Key(..), Modifier(..), Button(..))
 import Sudoku
 import Data.Char (digitToInt, isDigit)
+import Data.List
+import Data.Maybe
 import Data.Text qualified as Text
 import Data.Void
 import Debug.Trace
@@ -32,8 +34,8 @@ data AppState where
 -- Surrounds the cell text with a border if it's selected, or one space
 -- of padding if it's unselected
 -- cellWidget :: Bool -> Cell -> Bool -> Widget Void
-cellWidget :: Bool -> Cell -> Bool -> Widget Void
-cellWidget selected cell error = 
+cellWidget :: Bool -> Cell -> Bool -> (LineIndex, LineIndex) -> Widget Void
+cellWidget selected cell error index = 
   let
     -- Text.pack :: String -> Text
     cellText = Text.pack $ cellToString cell
@@ -43,8 +45,13 @@ cellWidget selected cell error =
         Guess _ -> if error then "Error" else "Guess"
         Given _ -> "Given"
         _ -> "Blank"
-    baseWidget = withAttr (attrName attr) $
-        txt cellText
+    
+    baseWidget = 
+      if any (elem index) [box2, box4, box6, box8] then
+        -- change the background color for alternating boxes
+        withAttr (attrName attr <> attrName "Shade") $ txt cellText
+      else
+        withAttr (attrName attr) $ txt cellText
   in 
     if selected then 
       border baseWidget
@@ -56,11 +63,12 @@ cellWidget selected cell error =
 boardWidget :: AppState -> Widget Void
 boardWidget st = 
   renderTable $ table $ 
-  (zipWith3 . zipWith3) 
+  (zipWith4 . zipWith4) 
     cellWidget 
     (listofLists (fmap (\i -> i == focus st) allCoordinates))
     (puzzleToLists (puzzle st))
     (listofLists (fmap (\i -> elem i (errors st)) allCoordinates))
+    (listofLists allCoordinates)
   
 -- compute decreasing a LineIndex. Wraps back around to the top/other side if you're at the bottom/edge
 indexMinus :: LineIndex -> LineIndex
@@ -167,6 +175,7 @@ gameAttrMap =
   [ (attrName "Guess", fg green)
   , (attrName "Given", fg blue)
   , (attrName "Error", fg red)
+  , (attrName "Shade", bg red) -- this one is not getting applied
   ]
 
 -- The Brick application definition, which is used to generate our main
