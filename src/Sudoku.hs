@@ -191,7 +191,8 @@ setGiven p x i =
     -- the value to update the Cell to, and
     -- the coordinates of the Cell being set, 
 -- It returns an updated copy of the puzzle
--- Note that unlike setGiven, setGuess only verifies that the guess is a valid value. It does not verify that the guess is valid in it's position in the puzzle. This allows the user to make a mistake while they are working on the puzzle. 
+-- Note that unlike setGiven, setGuess does not verify that the guess is valid in it's position in the puzzle. 
+-- This allows the user to make a mistake while they are working on the puzzle. 
 setGuess :: Puzzle -> Int -> (LineIndex, LineIndex) -> Puzzle
 setGuess p x i = 
     if (given (p i)) then
