@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% block content %}
+    <h3>Your Results:</h3>
+    <p class=results>
+        <!-- display rank of name if nameRank has a value -->
+        {% if data.nameRank > 0 %}
+            The name {{ data.name }} was ranked #{{ data.nameRank }} in the year {{ data.year }}. <br><br>
+        {% else %}
+            The name {{ data.name }} was not ranked in the year {{ data.year }}. <br><br>
+        {% endif %}
+        
+        <!-- display most popular name of year if topName has a value-->
+        {% if data.topName|length > 0 %}
+            The most popular {{ data.gender }} name in the year {{ data.year }} was {{ data.topName }}.<br><br>
+        {% else %}
+            There was no most popular {{ data.gender }} name in the year {{ data.year }}.<br><br>
+        {% endif %}              
+
+        <!-- display chart of name popularity if chartURL has a value-->
+        {% if data.chartURL|length > 0 %}
+            This chart shows how the popularity of the name {{ data.name }} has changed over the years:<br><br>
+
+            <img src="{{ data.chartURL }}" alt='name chart'><br><br>
+        {% endif %}
+        
+    </p>    
+    <h3><a href="{{ url_for('index') }}">Start Over</a></h3>
+{% endblock %}
