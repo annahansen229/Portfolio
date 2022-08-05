@@ -1,0 +1,204 @@
+
+
+/* nav bar styling */
+nav, a {
+  font-weight: bolder;
+  font-size: large;
+  background-color: black;
+  color: rgb(195, 6, 195);
+  font-size: 1.4em;
+  font-family: "Harry Potter";
+  position: inline-fixed;
+  text-align: center;
+}
+
+/*For the font for the tabs */
+@font-face {
+  font-family: "Harry Potter";
+  src: url("//db.onlinewebfonts.com/t/0421d4186d6efbfc5331fe180895e780.eot");
+  src: url("//db.onlinewebfonts.com/t/0421d4186d6efbfc5331fe180895e780.eot?#iefix")
+      format("embedded-opentype"),
+    url("//db.onlinewebfonts.com/t/0421d4186d6efbfc5331fe180895e780.woff2")
+      format("woff2"),
+    url("//db.onlinewebfonts.com/t/0421d4186d6efbfc5331fe180895e780.woff")
+      format("woff"),
+    url("//db.onlinewebfonts.com/t/0421d4186d6efbfc5331fe180895e780.ttf")
+      format("truetype"),
+    url("//db.onlinewebfonts.com/t/0421d4186d6efbfc5331fe180895e780.svg#Harry Potter")
+      format("svg");
+}
+
+/*Adding css that will make a wand appear instead of the mouse cursor */
+* {
+  cursor: url(https://cur.cursors-4u.net/user/use-1/use160.cur), auto !important;
+}
+
+ .logo {
+  height: 70px;
+  width: 200px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-top: -6px;
+}
+
+/*For the form on the homepage */
+div.Home {
+  color: white;
+}
+figcaption {
+  color:rgb(195, 6, 195);
+}
+legend {
+  font-size: 2em;
+  color: rgb(226, 10, 226);
+}
+label {
+  font-size: 2em;
+  color: white;
+}
+.sortinghat { /*For Sorting Hat Quiz on homepage */
+  size: auto;
+  box-sizing: border-box;
+  border-radius: 5px;
+  padding: 20px;
+  background-color: black;
+  max-width: 900px;
+  height: auto;
+  width: 100%;
+  margin: auto;
+  font-family: "Harry Potter";
+  color: #222222;
+  text-align: center;
+}
+
+.frontpage { /*For h1 header in homepage */
+  font-family: "Harry Potter";
+  text-align: center;
+  margin-top: 0px;
+  padding: 20px;
+  font-size: 4em;
+  color: rgb(236, 12, 12);
+  background-image: url("../src/images/hogwarts.jpg");
+  background-size: 250px;
+}
+.quiztime { /*For h2 header in homepage */
+  font-family: "Harry Potter";
+  text-align: center;
+  margin-top: 0px;
+  padding: 20px;
+  height: 160px;
+  font-size: 4em;
+  color: rgb(248, 2, 2);
+  background-image: url("../src/images/HogwartsHouses.jpg");
+}
+
+/*For the credits page */
+.creditsheader {
+  font-family: "Harry Potter";
+  margin-top: 20px;
+  padding-top: 20px;
+  color: rgb(66, 47, 148);
+  text-align: center;
+  font-size: 2.5em;
+}
+.creditsbody {
+  background-image: url("../src/images/quidditch.jpg");
+  height: 400px;
+}
+
+/*For the spells page  */
+
+.spellsheader {
+   margin-top: 0px;
+  padding-top: 50px;
+  padding-bottom: 75px;
+  color: #7fff00;
+  background-image: url("https://images.ctfassets.net/usf1vwtuqyxm/4L0FPfx6vY6Eq4coUwucSg/3d5396be068eddca7300e7036c3c3671/DiagonAlley_PM_B1C5M4_HarryAtOllivanders_Moment.jpg");
+  background-size: 600px;
+  font-family: "Harry Potter";
+  text-align: center;
+  font-size: 4em;
+  filter: brightness(120%);
+}
+
+.container {
+  text-align: center;
+  background-color: black;
+  height: auto; 
+}
+
+.searchintro {
+  padding-top: 10px;
+  color:rgb(195, 6, 195);
+  font-family: "Harry Potter";
+  font-size: 3em;
+}
+
+.searchresults {
+  color: red;
+  font-size: large;
+  font-family: "Harry Potter";
+  font-size: 2em;
+}
+.listheader {
+  color:rgb(226, 212, 10);
+  font-size: 3em;
+  font-family: "Harry Potter";
+  background-color: darkslateblue;
+}
+
+.list {
+  color: rgb(70, 238, 3);
+  font-size: 3em;
+  font-family: "Harry Potter";
+  background-image: url("../../harry-potter-app/src/images/map.gif");
+  filter: brightness(120%);
+     -webkit-text-stroke-width: 1px;
+            -webkit-text-stroke-color: black;
+}
+
+/*For the potions page */
+.potionsheader {
+   margin-top: 0px;
+  padding-top: 50px;
+  padding-bottom: 75px;
+  color: #0b0eb3;
+  background-image: url("https://images.ctfassets.net/usf1vwtuqyxm/4VcPqGNA3SMkW6sk6UookA/0635f76dc4ebd019b0f4764c980d0ea4/B1C8M2.jpg?fm=jpg&q=70&w=2560");
+  background-size: 600px;
+  font-family: "Harry Potter";
+  text-align: center;
+  font-size: 4em;
+  filter: brightness(120%);
+  -webkit-text-stroke-width: 1px;
+            -webkit-text-stroke-color: black;
+}
+
+.potionsearchintro {
+  padding-top: 10px;
+  color:rgb(22, 195, 6);
+  font-family: "Harry Potter";
+  font-size: 3em;
+}
+
+.searchpotion {
+  color: rgb(204, 0, 255);
+  font-size: large;
+  font-family: "Harry Potter";
+  font-size: 2em;
+}
+.potionlistheader {
+  color:rgb(253, 167, 69);
+  font-size: 3em;
+  font-family: "Harry Potter";
+  background-color: rgb(19, 74, 163);
+}
+
+.potionlist {
+  color: rgb(66, 3, 238);
+  font-size: 3em;
+  font-family: "Harry Potter";
+  background-image: url("https://i.ytimg.com/vi/wWs5GJXH__M/maxresdefault.jpg");
+  filter: brightness(120%);
+     -webkit-text-stroke-width: 1px;
+            -webkit-text-stroke-color: black;
+}
